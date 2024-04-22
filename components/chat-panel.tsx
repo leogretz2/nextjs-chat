@@ -36,25 +36,52 @@ export function ChatPanel({
 
   const exampleMessages = [
     {
-      heading: 'What are the',
-      subheading: 'trending memecoins today?',
-      message: `What are the trending memecoins today?`
+      heading: 'A. The law is justified as it promotes nationalism, which is a compelling state interest.',
+      message: 'A. The law is justified as it promotes nationalism, which is a compelling state interest.'
     },
     {
-      heading: 'What is the price of',
-      subheading: '$DOGE right now?',
-      message: 'What is the price of $DOGE right now?'
+      heading: 'B. The law is unconstitutional because it violates the students\' freedom of speech.',
+      message: 'B. The law is unconstitutional because it violates the students\' freedom of speech.',
     },
     {
-      heading: 'I would like to buy',
-      subheading: '42 $DOGE',
-      message: `I would like to buy 42 $DOGE`
-    },
-    {
-      heading: 'What are some',
-      subheading: `recent events about $DOGE?`,
-      message: `What are some recent events about $DOGE?`
+      heading: 'C. The law is unconstitutional because it violates the students\' freedom of religion.',
+      message: 'C. The law is unconstitutional because it violates the students\' freedom of religion.',
     }
+    ,
+    {
+      heading: 'D. The law is justified because the education of minors is a matter of state concern, not federal.',
+      message: 'D. The law is justified because the education of minors is a matter of state concern, not federal.',
+    }
+    ,
+// B. The law is unconstitutional because it violates the students' freedom of speech.
+
+// C. The law is unconstitutional because it violates the students' freedom of religion.
+
+// D. The law is justified because the education of minors is a matter of state concern, not federal.
+
+// E. The law is constitutional because saluting the flag is a traditional act of patriotism, not a religious or political statement.
+
+
+    // {
+    //   heading: 'What are the',
+    //   subheading: 'trending memecoins today?',
+    //   message: `What are the trending memecoins today?`
+    // },
+    // {
+    //   heading: 'What is the price of',
+    //   subheading: '$DOGE right now?',
+    //   message: 'What is the price of $DOGE right now?'
+    // },
+    // {
+    //   heading: 'I would like to buy',
+    //   subheading: '42 $DOGE',
+    //   message: `I would like to buy 42 $DOGE`
+    // },
+    // {
+    //   heading: 'What are some',
+    //   subheading: `recent events about $DOGE?`,
+    //   message: `What are some recent events about $DOGE?`
+    // }
   ]
 
   return (
