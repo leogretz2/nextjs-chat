@@ -27,7 +27,7 @@ export function EmptyScreen() {
           Example MBE Multiple Choice Question
         </h1>
         <p className="leading-normal text-muted-foreground">
-        The state of Freedonia passes a law requiring that all school children salute the national flag each morning. A group of students who are members of a religious sect that believes such salutes are against their religious principles refuse to comply. The students are subsequently suspended from school. The students' parents sue the state, arguing that the law violates the First Amendment.
+        The state of Freedonia passes a law requiring that all school children salute the national flag each morning. A group of students who are members of a religious sect that believes such salutes are against their religious principles refuse to comply. The students are subsequently suspended from school. The students\' parents sue the state, arguing that the law violates the First Amendment.
 
         Which of the following arguments is most likely to determine the outcome of this case?
 
