@@ -52,7 +52,6 @@ export function ChatPanel({
       heading: 'D. The law is justified because the education of minors is a matter of state concern, not federal.',
       message: 'D. The law is justified because the education of minors is a matter of state concern, not federal.',
     }
-    ,
 // B. The law is unconstitutional because it violates the students' freedom of speech.
 
 // C. The law is unconstitutional because it violates the students' freedom of religion.
@@ -120,9 +119,9 @@ export function ChatPanel({
                 }}
               >
                 <div className="text-sm font-semibold">{example.heading}</div>
-                <div className="text-sm text-zinc-600">
+                {/* <div className="text-sm text-zinc-600">
                   {example.subheading}
-                </div>
+                </div> */}
               </div>
             ))}
         </div>
