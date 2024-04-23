@@ -14,7 +14,7 @@ export const metadata = {
     : undefined,
   title: {
     default: 'Juris',
-    template: `%s - Next.js AI Chatbot`
+    template: `%s - AI Bar Exam Prep`
   },
   description: 'An AI-powered Bar Exam Study Tool.',
   icons: {
