@@ -12,6 +12,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Message } from '@/lib/chat/actions'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
+import { supabase, fetchQuestions } from '../supabaseClient'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -56,6 +57,8 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor()
+
+  fetchQuestions()
 
   return (
     <div

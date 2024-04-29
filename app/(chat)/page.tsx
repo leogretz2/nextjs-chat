@@ -15,11 +15,13 @@ export default async function IndexPage() {
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
 
-  console.log('pagehere', supabase)
+  const qus = await fetchQuestions()
+  console.log('pagehere', qus)
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
       <Chat id={id} session={session} missingKeys={missingKeys} />
+      {/* <button onClick={() => fetchQuestions()}>Click</button> */}
     </AI>
   )
 }

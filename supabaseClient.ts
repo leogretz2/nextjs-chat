@@ -1,13 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://gpazmihhssffmeyfmsey.supabase.co'; // Find this in your project settings on Supabase
-const supabaseAnonKey = process.env.SUPABASE_ANON || 'eyJhbGc'; // Find this in your project settings on Supabase
+const supabaseAnonKey =  process.env.SUPABASE_ANON || 'null'; // Find this in your project settings on Supabase
+
+console.log('env',process.env)
+console.log('supabaser', supabaseAnonKey)
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-console.log('here: ', supabase)
-
-export async function fetchQuestions() {
+export async function fetchQuestions() {    
     const { data, error } = await supabase
         .from('MBE_Questions')
         .select('*');
@@ -17,7 +18,7 @@ export async function fetchQuestions() {
         return;
     }
 
-    console.log('Questions:', data);
+    return data;
 }
 
 fetchQuestions();
