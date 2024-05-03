@@ -1,5 +1,12 @@
 import { Message } from 'ai'
 
+export interface Question {
+  id?: number;
+  content?: string;
+  explanation?: string;
+  choices?: string[];
+}
+
 export interface Chat extends Record<string, any> {
   id: string
   title: string

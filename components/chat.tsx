@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils'
 import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
-import { EmptyScreen } from '@/components/empty-screen'
+import { QuestionScreen } from '@/components/question-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useEffect, useState } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
@@ -18,10 +18,12 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
   id?: string
   session?: Session
-  missingKeys: string[]
+  missingKeys?: string[]
+  question?: string
+  choices?: string[]
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export function Chat({ id, className, session, missingKeys, question, choices }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
@@ -67,7 +69,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         className={cn('pb-[200px] pt-4 md:pt-10', className)}
         ref={messagesRef}
       >
-        <EmptyScreen />
+        <QuestionScreen question={question}/>
         {messages.length ? (
           <ChatList messages={messages} isShared={false} session={session} />
         ) : ( null )
@@ -80,6 +82,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
+        choices={choices}
       />
     </div>
   )

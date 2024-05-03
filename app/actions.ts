@@ -6,6 +6,62 @@ import { kv } from '@vercel/kv'
 
 import { auth } from '@/auth'
 import { type Chat } from '@/lib/types'
+import { supabase } from '../supabaseClient';
+import { Question } from '@/lib/types';
+
+export async function insertUniqueQuestion(newQuestion: Question) {
+  try {
+    // Check if a question with the same content already exists
+    const { data: existingQuestions, error: fetchError } = await supabase
+      .from('MBE_Questions')
+      .select('content')
+      .eq('content', newQuestion.content)
+      .single();
+
+    if (fetchError && fetchError.message !== "No rows found") {
+      console.error('Error fetching questions:', fetchError);
+      return { error: fetchError };
+    }
+
+    // If the question already exists, return some message or handle as needed
+    if (existingQuestions) {
+      return { message: 'Question with the same content already exists.', existingQuestion: existingQuestions };
+    }
+
+    // If the question does not exist, insert it
+    const { data: insertedQuestion, error: insertError } = await supabase
+      .from('MBE_Questions')
+      .insert([newQuestion]);
+
+    if (insertError) {
+      console.error('Error inserting question:', insertError);
+      return { error: insertError };
+    }
+
+    return { message: 'Question inserted successfully', insertedQuestion: insertedQuestion[0] };
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    return { error };
+  }
+}
+
+export async function insertQuestion(){
+  console.log('start insert')
+  const newQuestion: Question = {
+    content: 'What is the meaning of life?',
+    explanation: 'The meaning of life is a deep philosophical question that has been debated for centuries. It is a question that is often asked by people who are not philosophers.',
+    choices: ['I do not know', 'I am not sure', 'I am not sure']
+  }
+
+  try {
+    const { data: insertedQuestion, error: insertError } = await supabase
+        .from('MBE_Questions')
+        .insert([newQuestion]);
+  } catch(e) {
+    console.error('e: ',e)
+  }
+  console.log('database added');
+}
 
 export async function getChats(userId?: string | null) {
   if (!userId) {

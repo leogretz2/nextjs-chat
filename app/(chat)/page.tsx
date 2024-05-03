@@ -6,6 +6,8 @@ import { Session } from '@/lib/types'
 import { getMissingKeys } from '../actions'
 import { supabase, fetchQuestions } from '../../supabaseClient'
 import loader from './page.server'
+import { insertUniqueQuestion } from '../actions';
+import { insertQuestion } from '../actions';
 
 export const metadata = {
   title: 'Juris'
@@ -24,14 +26,14 @@ export const metadata = {
 
 export default async function IndexPage({session}) {
 
-  const props = await loader()
+  const {props} = await loader()
   const {questions} = props;
-  // console.log('questions1',props.questions)
   console.log('questions',questions)
   
   const id = nanoid()
   // const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
+  const question = Array.isArray(questions) ? questions[0] : ''
 
   // const qus = await fetchQuestions()
   // console.log('pagehere', qus)
@@ -39,8 +41,9 @@ export default async function IndexPage({session}) {
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
       <div>asdfk</div>
-      <Chat id={id} session={session} missingKeys={missingKeys} />
+      <Chat id={id} session={session} missingKeys={missingKeys} question={question} choices={question} />
       {/* <button onClick={() => fetchQuestions()}>Click</button> */}
+      <button onClick={insertQuestion}>Clickr</button>
       <div>{questions ? questions[0].content: null}</div>
     </AI>
   )
