@@ -8,6 +8,7 @@ import { supabase, fetchQuestions } from '../../supabaseClient'
 import loader from './page.server'
 import { insertUniqueQuestion } from '../actions';
 import { insertQuestion } from '../actions';
+import LogButton from '../../components/logButton'
 
 export const metadata = {
   title: 'Juris'
@@ -24,27 +25,32 @@ export const metadata = {
 //   };
 // }
 
-export default async function IndexPage({session}) {
+export default async function IndexPage(/*{session}*/) {
 
   const {props} = await loader()
-  const {questions} = props;
-  console.log('questions',questions)
+  const {questions, session} = props;
   
   const id = nanoid()
   // const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
-  const question = Array.isArray(questions) ? questions[0] : ''
+  const firstQuestion = questions[0]
+  const questionText = firstQuestion.question
+  const answers = firstQuestion.answers
+  
+  // This works - question coming in from loader
+  console.log('questionTextp', questions, questionText)
 
   // const qus = await fetchQuestions()
-  // console.log('pagehere', qus)
+  // console.log('pagehere', qus);
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
-      <div>asdfk</div>
-      <Chat id={id} session={session} missingKeys={missingKeys} question={question} choices={question} />
+      {/* <div>asdfk</div> */}
+      <Chat id={id} session={session} missingKeys={missingKeys} questionText={questionText} answers={answers} />
       {/* <button onClick={() => fetchQuestions()}>Click</button> */}
-      <button onClick={insertQuestion}>Clickr</button>
-      <div>{questions ? questions[0].content: null}</div>
+      {/* <button onClick={() => insertQuestion()}>Clickr</button> */}
+      {/* <LogButton /> */}
+      {/* <div>{questions ? questions[0].content: null}</div> */}
     </AI>
   )
 }

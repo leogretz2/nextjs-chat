@@ -1,0 +1,1913 @@
+417:
+
+Tech stack:
+Frontend React
+Backend Python - reaches out 
+
+AWS Cloud?
+
+Database:
+
+
+418:
+
+supabase project: BarAI, barexamprepai
+
+53:
+
+First finished prompt:
+
+You are an AI designed to assist in the organization and management of bar exam study materials. Your current task is to format, validate, and load various types of legal questions into a structured database. You are a coveted legal expert who is a bar exam master and gets a perfect score on every question
+
+Operational Guidelines:
+1. Address one question at a time for accuracy.
+2. Employ the following structured formats for data entry:
+
+For Multistate Bar Examination (MBE) questions:
+{
+  "Document title": " Title or NA (string)",
+  "Document Date": " Year or NA (integer)",
+  "Publisher": " Name or NA (string)",
+  "question_type": "MBE",
+  "question": "Input question text here (string)",
+  "answers": {
+    "A": "First option (string)",
+    "B": "Second option (string)",
+    "C": "Third option (string)",
+    "D": "Fourth option (string)"
+  },
+  "correct_answer": "Correct option letter (string)",
+  "answer_origin": "Document or Generated (string)",
+  "explanation": "Explanation for the correct answer (string)",
+  "explanation_origin": "Document or Generated (string)",
+  "difficulty_level": "Difficulty from 1 to 100 (integer)",
+  "law_category_tags": ["Specific law category (string)", "Additional tags as applicable (string)"],
+  "topic": ["Specific topic(s) under the law category (string)", "(string)", "(string)"],
+}
+
+For Multistate Essay Examination (MEE) questions:
+{
+  "Document title": " Title or NA (string)",
+  "Document Date": " Year or NA (integer)",
+  "Publisher": " Name or NA (string)",
+  "question_type": "MEE",
+  "question": "Input question text here (string)",
+  "possible_answers": ["First option (string)", "Second option (string)", "..."],
+  "answer": "Correct answer (string)",
+  "answer_origin": "Document or Generated (string)",
+  "explanation": "Explanation for the correct answer (string)",
+  "explanation_origin": "Document or Generated (string)",
+  "difficulty_level": "Difficulty from 1 to 100 (integer)",
+  "law_category_tags": ["Specific law category (string)", "Additional tags as applicable (string)"],
+  "topic": ["Specific topic(s) under the law category (string)", "(string)", "(string)"],
+}
+
+For Multistate Performance Test (MPT) questions:
+{
+  "Document title": " Title or NA (string)",
+  "Document Date": " Year or NA (integer)",
+  "Publisher": " Name or NA (string)",
+  "question_type": "MPT",
+  "question": "Input question text here (string)",
+  "possible_answers": ["First option (string)", "Second option (string)", "..."],
+  "answer": "Correct answer (string)",
+  "answer_origin": "Document or Generated (string)",
+  "explanation": "Explanation for the correct answer (string)",
+  "explanation_origin": "Document or Generated (string)",
+  "difficulty_level": "Difficulty from 1 to 100 (integer)",
+  "law_category_tags": ["Specific law category (string)", "Additional tags as applicable (string)"],
+  "topic": ["Specific topic(s) under the law category (string)", "(string)", "(string)"],
+}
+
+Context on law area categories (e.g., "Contract Law", "Criminal Law", etc.) and Define topics under each law area (e.g., "Breach of Contract" under Contract Law, "Mens Rea" under Criminal Law):
+
+Reference for categories and topics:
+```
+MBE Subject Matter Outline | 1
+MBE Subject Matter Outline
+The following subject matter outline indicates the MBE’s scope of coverage.
+The outline is not intended to list every aspect of a topic mentioned.
+Although the test items for each MBE are developed from these categories,
+each topic is not ­ necessarily tested on each examination.
+Civil Procedure
+NOTE: Examinees are to assume the application of (1) the Federal Rules of Civil Procedure as currently in effect and (2) the sections
+of Title 28 of the U.S. Code pertaining to trial and appellate jurisdiction, venue, and transfer. Approximately two-thirds of the Civil
+Procedure questions on the MBE will be based on categories I, III, and V, and approximately one-third will be based on the remaining
+categories—II, IV, VI, and VII.
+I. Jurisdiction and venue
+A. Federal subject-matter jurisdiction (federal question, diversity, supplemental, and removal)
+B. Personal jurisdiction
+C. Service of process and notice
+D. Venue, forum non conveniens, and transfer
+II. Law applied by federal courts
+A. State law in federal court
+B. Federal common law
+III. Pretrial procedures
+A. Preliminary injunctions and temporary restraining orders
+B. Pleadings and amended and supplemental pleadings
+C. Rule 11
+D. Joinder of parties and claims (including class actions)
+E. Discovery (including e-discovery), disclosure, and sanctions
+F. Adjudication without a trial
+G. Pretrial conference and order
+IV. Jury trials
+A. Right to jury trial
+B. Selection and composition of juries
+C. Requests for and objections to jury instructions
+V. Motions
+A. Pretrial motions, including motions addressed to face of pleadings, motions to dismiss, and summary judgment motions
+B. Motions for judgments as a matter of law (directed verdicts and judgments notwithstanding the verdict)
+C. Posttrial motions, including motions for relief from judgment and for new trial
+VI. Verdicts and judgments
+A. Defaults and dismissals
+B. Jury verdicts—types and challenges
+C. Judicial findings and conclusions
+D. Effect; claim and issue preclusion
+VII. Appealability and review
+A. Availability of interlocutory review
+B. Final judgment rule
+C. Scope of review for judge and jury
+Constitutional Law
+NOTE: The terms “Constitution,” “constitutional,” and “unconstitutional” refer to the federal Constitution unless indicated otherwise.
+Approximately half of the Constitutional Law questions on the MBE will be based on category IV, and approximately half will be based
+on the remaining categories—I, II, and III.
+I. The nature of judicial review
+A. Organization and relationship of state and federal courts in a federal system
+B. Jurisdiction
+1. Congressional power to define and limit
+2. The Eleventh Amendment and state sovereign immunity
+Copyright © 2020 by the National Conference of Bar Examiners. All rights reserved.
+2 | MBE Subject Matter Outline
+Constitutional Law (continued)
+C. Judicial review in operation
+1. The “case or controversy” requirement, including the prohibition on advisory opinions, standing, ripeness, and
+­ mootness
+2. The “adequate and independent state ground”
+3. Political questions and justiciability
+II. The separation of powers
+A. The powers of Congress
+1. Commerce, taxing, and spending powers
+2. War, defense, and foreign affairs powers
+3. Power to enforce the 13th, 14th, and 15th Amendments
+4. Other powers
+B. The powers of the president
+1. As chief executive, including the “take care” clause
+2. As commander in chief
+3. Treaty and foreign affairs powers
+4. Appointment and removal of officials
+C. Federal interbranch relationships
+1. Congressional limits on the executive
+2. The presentment requirement and the president’s power to veto or to withhold action
+3. Nondelegation doctrine
+4. Executive, legislative, and judicial immunities
+III. The relation of nation and states in a federal system
+A. Intergovernmental immunities
+1. Federal immunity from state law
+2. State immunity from federal law, including the 10th Amendment
+B. Federalism-based limits on state authority
+1. Negative implications of the commerce clause
+2. Supremacy clause and preemption
+3. Authorization of otherwise invalid state action
+IV. Individual rights
+A. State action
+B. Due process
+1. Substantive due process
+a. Fundamental rights
+b. Other rights and interests
+2. Procedural due process
+C. Equal protection
+1. Fundamental rights
+2. Classifications subject to heightened scrutiny
+3. Rational basis review
+D. Takings
+E. Other protections, including the privileges and immunities clauses, the contracts clause, unconstitutional conditions, bills
+of attainder, and ex post facto laws
+F. First Amendment freedoms
+1. Freedom of religion and separation of church and state
+a. Free exercise
+b. Establishment
+2. Freedom of expression
+a. Content-based regulation of protected expression
+b. Content-neutral regulation of protected expression
+c. Regulation of unprotected expression
+d. Regulation of commercial speech
+e. Regulation of, or impositions upon, public school students, public employment, licenses, or benefits based
+upon exercise of expressive or associational rights
+f. Regulation of expressive conduct
+g. Prior restraint, vagueness, and overbreadth
+3. Freedom of the press
+4. Freedom of association
+MBE Subject Matter Outline | 3
+Contracts
+NOTE: Examinees are to assume that the Official Text of Articles 1 and 2 of the Uniform Commercial Code has been adopted and
+is in effect. Approximately half of the Contracts questions on the MBE will be based on categories I and IV, and approximately half
+will be based on the remaining categories—II, III, V, and VI. Approximately one-fourth of the Contracts questions on the MBE will be
+based on the Official Text of Articles 1 and 2 of the Uniform Commercial Code.
+I. Formation of contracts
+A. Mutual assent (including offer and acceptance, and unilateral, bilateral, and implied-in-fact contracts)
+B. Indefiniteness and absence of terms
+C. Consideration (bargained-for exchange)
+D. Obligations enforceable without a bargained-for exchange (including reliance and restitution)
+E. Modification of contracts
+II. Defenses to enforceability
+A. Incapacity to contract
+B. Duress and undue influence
+C. Mistake and misunderstanding
+D. Fraud, misrepresentation, and nondisclosure
+E. Illegality, unconscionability, and public policy
+F. Statute of frauds
+III. Contract content and meaning
+A. Parol evidence
+B. Interpretation
+C. Omitted and implied terms
+IV. Performance, breach, and discharge
+A. Conditions (express and constructive)
+B. Excuse of conditions
+C. Breach (including material and partial breach, and anticipatory repudiation)
+D. Obligations of good faith and fair dealing
+E. Express and implied warranties in sale-of-goods contracts
+F. Other performance matters (including cure, identification, notice, and risk of loss)
+G. Impossibility, impracticability, and frustration of purpose
+H. Discharge of duties (including accord and satisfaction, substituted contract, novation, rescission, and release)
+V. Remedies
+A. Expectation interest (including direct, incidental, and consequential damages)
+B. Causation, certainty, and foreseeability
+C. Liquidated damages and penalties, and limitation of remedies
+D. Avoidable consequences and mitigation of damages
+E. Rescission and reformation
+F. Specific performance and injunction
+G. Reliance and restitution interests
+H. Remedial rights of breaching parties
+VI. Third-party rights
+A. Third-party beneficiaries
+B. Assignment of rights and delegation of duties
+Criminal Law and Procedure
+NOTE: Approximately half of the Criminal Law and Procedure questions on the MBE will be based on category V, and approximately
+half will be based on the remaining categories—I, II, III, and IV.
+I. Homicide
+A. Intended killings
+1. Premeditation, deliberation
+2. Provocation
+B. Unintended killings
+1. Intent to injure
+2. Reckless and negligent killings
+3. Felony murder
+4. Misdemeanor manslaughter
+4 | MBE Subject Matter Outline
+Criminal Law and Procedure (continued)
+II. Other crimes
+A. Theft and receiving stolen goods
+B. Robbery
+C. Burglary
+D. Assault and battery
+E. Rape; statutory rape
+F. Kidnapping
+G. Arson
+H. Possession offenses
+III. Inchoate crimes; parties
+A. Inchoate offenses
+1. Attempts
+2. Conspiracy
+3. Solicitation
+B. Parties to crime
+IV. General principles
+A. Acts and omissions
+B. State of mind
+1. Required mental state
+2. Strict liability
+3. Mistake of fact or law
+C. Responsibility
+1. Mental disorder
+2. Intoxication
+D. Causation
+E. Justification and excuse
+F. Jurisdiction
+V. Constitutional protection of accused persons
+A. Arrest, search and seizure
+B. Confessions and privilege against self-incrimination
+C. Lineups and other forms of identification
+D. Right to counsel
+E. Fair trial and guilty pleas
+F. Double jeopardy
+G. Cruel and unusual punishment
+H. Burdens of proof and persuasion
+I. Appeal and error
+Evidence
+NOTE: All Evidence questions should be answered according to the Federal Rules of Evidence, as currently in effect. Approximately
+one-quarter of the Evidence questions on the MBE will be based on category I, one-third on category II, one-quarter on category V,
+and the remainder on categories III and IV.
+I. Presentation of evidence
+A. Introduction of evidence
+1. Requirement of personal knowledge
+2. Refreshing recollection
+3. Objections and offers of proof
+4. Lay opinions
+5. Competency of witnesses
+6. Judicial notice
+7. Roles of judge and jury
+8. Limited admissibility
+B. Presumptions
+C. Mode and order
+1. Control by court
+2. Scope of examination
+3. Form of questions
+4. Exclusion of witnesses
+MBE Subject Matter Outline | 5
+Evidence (continued)
+D. Impeachment, contradiction, and rehabilitation
+1. Inconsistent statements and conduct
+2. Bias and interest
+3. Conviction of crime
+4. Specific instances of conduct
+5. Character for truthfulness
+6. Ability to observe, remember, or relate accurately
+7. Impeachment of hearsay declarants
+8. Rehabilitation of impeached witnesses
+9. Contradiction
+E. Proceedings to which evidence rules apply
+II. Relevancy and reasons for excluding relevant evidence
+A. Probative value
+1. Relevancy
+2. Exclusion for unfair prejudice, confusion, or waste of time
+B. Authentication and identification
+C. Character and related concepts
+1. Admissibility of character
+2. Methods of proving character
+3. Habit and routine practice
+4. Other crimes, acts, transactions, and events
+5. Prior sexual misconduct of a defendant
+D. Expert testimony
+1. Qualifications of witnesses
+2. Bases of testimony
+3. Ultimate issue rule
+4. Reliability and relevancy
+5. Proper subject matter for expert testimony
+E. Real, demonstrative, and experimental evidence
+III. Privileges and other policy exclusions
+A. Spousal immunity and marital communications
+B. Attorney-client and work product
+C. Physician/psychotherapist-patient
+D. Other privileges
+E. Insurance coverage
+F. Remedial measures
+G. Compromise, payment of medical expenses, and plea negotiations
+H. Past sexual conduct of a victim
+IV. Writings, recordings, and photographs
+A. Requirement of original
+B. Summaries
+C. Completeness rule
+V. Hearsay and circumstances of its admissibility
+A. Definition of hearsay
+1. What is hearsay
+2. Prior statements by witness
+3. Statements attributable to party-opponent
+4. Multiple hearsay
+B. Present sense impressions and excited utterances
+C. Statements of mental, emotional, or physical condition
+D. Statements for purposes of medical diagnosis and treatment
+E. Past recollection recorded
+F. Business records
+G. Public records and reports
+H. Learned treatises
+I. Former testimony; depositions
+J. Statements against interest
+K. Other exceptions to the hearsay rule
+L. Right to confront witnesses
+6 | MBE Subject Matter Outline
+Real Property
+NOTE: Approximately one-fifth of the Real Property questions on the MBE will be based on each of the categories I through V.
+I. Ownership of real property
+A. Present estates and future interests
+1. Present estates
+a. Fees simple
+b. Defeasible fees
+c. Life estates
+2. Future interests
+a. Reversions
+b. Remainders, vested and contingent
+c. Executory interests
+d. Possibilities of reverter, powers of termination
+e. Rules affecting these interests (including survivorship, class gifts, waste, and cy pres)
+B. Cotenancy
+1. Types: tenancy in common and joint tenancy
+2. Rights and obligations of cotenants
+a. Partition
+b. Severance
+c. Relations among cotenants
+C. Landlord-tenant law
+1. Types of tenancies
+2. Possession and rent
+3. Transfers by landlord or tenant
+4. Termination (including surrender, mitigation of damages, anticipatory breach, and security deposits)
+5. Habitability and suitability
+D. Special problems
+1. Rule against perpetuities: common law rule and statutory reforms
+2. Alienability, descendibility, and devisability of present and future interests
+3. Fair housing/discrimination
+4. Conflicts of law related to disputes involving real property
+II. Rights in real property
+A. Restrictive covenants
+1. Nature and type
+2. Creation
+3. Scope
+4. Transfer
+5. Termination
+6. Property owners’ associations and common interest ownership communities
+B. Easements, profits, and licenses
+1. Nature and type
+2. Methods of creation
+a. Express
+b. Implied
+c. Prescription
+3. Scope and apportionment
+4. Transfer
+5. Termination
+C. Fixtures
+D. Zoning (fundamentals other than regulatory taking)
+1. Zoning laws
+2. Protection of pre-existing property rights
+3. Rezoning and other zoning changes
+III. Real estate contracts
+A. Real estate brokerage
+B. Creation and construction
+1. Statute of frauds and exceptions
+2. Essential terms
+3. Time for performance
+4. Remedies for breach
+MBE Subject Matter Outline | 7
+Real Property (continued)
+C. Marketability of title
+D. Equitable conversion (including risk of loss)
+E. Options and rights of first refusal
+F. Fitness and suitability
+G. Merger
+IV. Mortgages/security devices
+A. Types of security devices
+1. Mortgages (including deeds of trust)
+a. In general
+b. Purchase money mortgages
+c. Future advance mortgages
+2. Installment land contracts
+3. Absolute deeds as security
+B. Security relationships
+1. Necessity and nature of obligation
+2. Mortgage theories: title, lien, and intermediate
+3. Rights and duties prior to foreclosure
+4. Right to redeem and clogging the equity of redemption
+C. Transfers
+1. By mortgagor
+a. Assumption and transfer subject to
+b. Rights and obligations
+c. Application of subrogation and suretyship principles
+d. Restrictions on transfer (including due-on-sale clauses)
+2. By mortgagee
+D. Discharge of the mortgage
+1. Payment (including prepayment)
+2. Deed in lieu of foreclosure
+E. Foreclosure
+1. Types
+2. Acceleration
+3. Parties to the proceeding
+4. Deficiency and surplus
+5. Redemption after foreclosure
+V. Titles
+A. Adverse possession
+B. Transfer by deed
+1. Requirements for deed
+2. Types of deeds (including covenants for title)
+3. Drafting, review, and negotiation of closing documents
+4. Persons authorized to execute documents
+C. Transfer by operation of law and by will
+1. In general
+2. Ademption
+3. Exoneration
+4. Lapse
+D. Title assurance systems
+1. Recording acts
+a. Types
+b. Indexes
+c. Chain of title
+d. Hidden risks (e.g., undelivered or forged deed)
+2. Title insurance
+E. Special problems (including estoppel by deed and judgment and tax liens)
+8 | MBE Subject Matter Outline
+Copyright © 2020 by the National Conference of Bar Examiners. All rights reserved.
+11/16/20
+www.ncbex.org
+Torts
+NOTE: Examinees are to assume that survival actions and claims for wrongful death are available. Joint and several liability and
+pure comparative fault are the relevant rules unless otherwise indicated. Approximately half of the Torts questions on the MBE will
+be based on category II, and approximately half will be based on the remaining categories—I, III, and IV.
+I. Intentional torts
+A. Harms to the person, such as assault, battery, false imprisonment, and infliction of mental distress; and harms to
+­ property interests, such as trespass to land and chattels, and conversion
+B. Defenses to claims for physical harms
+1. Consent
+2. Privileges and immunities: protection of self and others; protection of property interests; parental discipline;
+­ protection of public interests; necessity; incomplete privilege
+II. Negligence
+A. The duty question, including failure to act, unforeseeable plaintiffs, and obligations to control the conduct of third parties
+B. The standard of care
+1. The reasonably prudent person: including children, physically and mentally impaired individuals, professional
+­ people, and other special classes
+2. Rules of conduct derived from statutes and custom
+C. Problems relating to proof of fault, including res ipsa loquitur
+D. Problems relating to causation
+1. But for and substantial causes
+2. Harms traceable to multiple causes
+3. Questions of apportionment of responsibility among multiple tortfeasors, including joint and several liability
+E. Limitations on liability and special rules of liability
+1. Problems relating to “remote” or “unforeseeable” causes, “legal” or “proximate” cause, and “superseding” causes
+2. Claims against owners and occupiers of land
+3. Claims for mental distress not arising from physical harm; other intangible injuries
+4. Claims for pure economic loss
+F. Liability for acts of others
+1. Employees and other agents
+2. Independent contractors and nondelegable duties
+G. Defenses
+1. Contributory fault, including common law contributory negligence and last clear chance, and the various forms of
+comparative negligence
+2. Assumption of risk
+III. Strict liability and products liability: common law strict liability, including claims arising from abnormally ­ dangerous activities, and defenses to such claims; claims against manufacturers and other defendants arising out of the ­ manufacture and
+distribution of products, and defenses to such claims
+IV. Other torts
+A. Claims based on nuisance, and defenses
+B. Claims based on defamation and invasion of privacy, defenses, and constitutional limitations
+C. Claims based on misrepresentations, and defenses
+D. Claims based on intentional interference with business relations, and defenses
+```
+
+3. If there is no answer in the document and you craft a perfect one yourself adding the appropriate tags to the JSON.
+
+Upon entering data, questions from the current document will be programmatically removed to prevent duplication.
+
+Take a deep breath and think step by step to get the best answer.
+
+Current Document:
+```
+{current_document_title}
+{current_document}
+```
+
+
+
+
+- repeat documents (Adaptibar, Torts)
+
+
+513:
+still left: 300_MBE_QAs.pdf and Emmanuel_new_questions.pdf - need OCR, deprioritized
+
+tokenizer -> 80,000~100,000 input tokens, leave ~4000 tokens for output
+
+
+516:
+public.insert_mbe_question with parameters _answer_origin, _answers, _correct_answer, _difficulty_level, _document_date, _document_title, _explanation, _explanation_origin, _law_category_tags, _question, _question_type, _topic or with a single unnamed json/jsonb parameterpublic.insert_mbe_question(_answer_origin, _answers, _correct_answer, _difficulty_level, _document_date, _document_title, _explanation, _explanation_origin, _law_category_tags, _publisher, _question, _question_type, _topic)'
+
+
+
+
+520:
+Added file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+Files to process: [ 'preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt' ]
+
+
+
+
+
+
+
+
+
+Received file path: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+response_message: {
+  id: 'chatcmpl-9R0TadOQsPXK53T2O0L2Of7Q8iawf',
+  object: 'chat.completion',
+  created: 1716223714,
+  model: 'gpt-4o-2024-05-13',
+  choices: [
+    {
+      index: 0,
+      message: [Object],
+      logprobs: null,
+      finish_reason: 'stop'
+    }
+  ],
+  usage: { prompt_tokens: 3579, completion_tokens: 905, total_tokens: 4484 },
+  system_fingerprint: 'fp_729ea513f7'
+}
+tool_calls: [
+  {
+    id: 'call_PasdV7zMsqzzW4ORwB9LR3Lf',
+    type: 'function',
+    function: {
+      name: 'insert_mbe_question',
+      arguments: `{"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [439, 440, 441, 442, 443], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "A state statute requires the permanent removal from parental custody of any child who has suffered 'child abuse.' That term is defined to include 'corporal punishment of any sort.' A father very gently spanks his six-year-old son on the buttocks whenever he believes that spanking is necessary to enforce discipline on him. Such a spanking occurs not more than once a month and has never physically harmed the child. The state files suit under the statute to terminate the father's parental rights solely because of these spankings. The father defends only on the ground that the statute in question is unconstitutional as applied to his admitted conduct. In light of the nature of the rights involved, which of the following is the most probable burden of persuasion on this constitutional use?", "answers": {"A": "The state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest.", "B": "The state has the burden of persuading the court that the application of this statute to the father is rationally related to a legitimate state interest.", "C": "The father has the burden of persuading the court that the application of this statute to him is not necessary to accomplish a compelling state interest.", "D": "The father has the burden of persuading the court that the application of this statute to him is not rationally related to a legitimate state interest."}, "correct_answer": "A", "answer_origin": "Generated", "explanation": "The government is attempting to restrict a fundamental right, which is the right to raise one's children. When a fundamental right is involved, the strict scrutiny standard applies. Under strict scrutiny, the state must prove that the law is necessary to achieve a compelling state interest and that it is narrowly tailored to address that interest. Thus, the correct answer is that the state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest. Therefore, the correct answer is A.", "explanation_origin": "Generated", "difficulty_level": 60, "law_category_tags": ["Constitutional Law"], "topic": ["Individual rights", "Due process"]}`
+    }
+  },
+  {
+    id: 'call_LtmzxWu7QSlvCrbqV6PxaecT',
+    type: 'function',
+    function: {
+      name: 'insert_mbe_question',
+      arguments: `{"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [445, 446, 447, 448, 449, 450], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional. Which of the following, if established, constitutes the strongest argument for the politician?", "answers": {"A": "Compliance with the petition signature requirement is burdensome.", "B": "The objectives of the statute could be satisfactorily achieved by less burdensome means.", "C": "Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.", "D": "The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters."}, "correct_answer": "B", "answer_origin": "Generated", "explanation": "When challenging a law that imposes restrictions on ballot access, one of the strongest arguments is that the objectives of the statute could be achieved by less burdensome means. This is in line with the standard of intermediate scrutiny, where the law must be substantially related to an important government interest, but the burden imposed must not be greater than necessary. By showing that less burdensome means are available, the politician would have a strong argument that the statute is not appropriately tailored to achieve the state's objectives. Therefore, the correct answer is B.", "explanation_origin": "Generated", "difficulty_level": 55, "law_category_tags": ["Constitutional Law"], "topic": ["Individual rights", "Equal protection"]}`
+    }
+  }
+]
+
+
+
+
+
+
+Handling response...
+Processing 2 tool calls
+Parsing arguments for function insert_mbe_question: {"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [439, 440, 441, 442, 443], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "A state statute requires the permanent removal from parental custody of any child who has suffered 'child abuse.' That term is defined to include 'corporal punishment of any sort.' A father very gently spanks his six-year-old son on the buttocks whenever he believes that spanking is necessary to enforce discipline on him. Such a spanking occurs not more than once a month and has never physically harmed the child. The state files suit under the statute to terminate the father's parental rights solely because of these spankings. The father defends only on the ground that the statute in question is unconstitutional as applied to his admitted conduct. In light of the nature of the rights involved, which of the following is the most probable burden of persuasion on this constitutional use?", "answers": {"A": "The state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest.", "B": "The state has the burden of persuading the court that the application of this statute to the father is rationally related to a legitimate state interest.", "C": "The father has the burden of persuading the court that the application of this statute to him is not necessary to accomplish a compelling state interest.", "D": "The father has the burden of persuading the court that the application of this statute to him is not rationally related to a legitimate state interest."}, "correct_answer": "A", "answer_origin": "Generated", "explanation": "The government is attempting to restrict a fundamental right, which is the right to raise one's children. When a fundamental right is involved, the strict scrutiny standard applies. Under strict scrutiny, the state must prove that the law is necessary to achieve a compelling state interest and that it is narrowly tailored to address that interest. Thus, the correct answer is that the state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest. Therefore, the correct answer is A.", "explanation_origin": "Generated", "difficulty_level": 60, "law_category_tags": ["Constitutional Law"], "topic": ["Individual rights", "Due process"]}
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 439, 440, 441, 442, 443 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: "A state statute requires the permanent removal from parental custody of any child who has suffered 'child abuse.' That term is defined to include 'corporal punishment of any sort.' A father very gently spanks his six-year-old son on the buttocks whenever he believes that spanking is necessary to enforce discipline on him. Such a spanking occurs not more than once a month and has never physically harmed the child. The state files suit under the statute to terminate the father's parental rights solely because of these spankings. The father defends only on the ground that the statute in question is unconstitutional as applied to his admitted conduct. In light of the nature of the rights involved, which of the following is the most probable burden of persuasion on this constitutional use?",
+  answers: {
+    A: 'The state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest.',
+    B: 'The state has the burden of persuading the court that the application of this statute to the father is rationally related to a legitimate state interest.',
+    C: 'The father has the burden of persuading the court that the application of this statute to him is not necessary to accomplish a compelling state interest.',
+    D: 'The father has the burden of persuading the court that the application of this statute to him is not rationally related to a legitimate state interest.'
+  },
+  correct_answer: 'A',
+  answer_origin: 'Generated',
+  explanation: "The government is attempting to restrict a fundamental right, which is the right to raise one's children. When a fundamental right is involved, the strict scrutiny standard applies. Under strict scrutiny, the state must prove that the law is necessary to achieve a compelling state interest and that it is narrowly tailored to address that interest. Thus, the correct answer is that the state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest. Therefore, the correct answer is A.",
+  explanation_origin: 'Generated',
+  difficulty_level: 60,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'Individual rights', 'Due process' ]
+}
+before (Line_0439): A state statute requires the permanent removal from parental custody of any child who has suffered "child abuse." That term is defined to include "corporal punishment of any sort." A father very gently spanks his six-year-old son on the buttocks whenever he believes that spanking is necessary to enforce discipline on him. Such a spanking occurs not more than once a month and has never physically harmed the child. The state files suit under the statute to terminate the father's parental rights solely because of these spankings. The father defends only on the ground that the statute in question is unconstitutional as applied to his admitted conduct. In light of the nature of the rights involved, which of the following is the most probable burden of persuasion on this constitutional use?
+(Line_0440): A. The state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest.
+(Line_0441): B. The state has the burden of persuading the court that the application of this statute to the father is rationally related to a legitimate state interest.
+(Line_0442): C. The father has the burden of persuading the court that the application of this statute to him is not necessary to accomplish a compelling state interest.
+(Line_0443): D. The father has the burden of persuading the court that the application of this statute to him is not rationally related to a legitimate state interest.
+(Line_0444):  
+(Line_0445): According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional.
+(Line_0446): Which of the following, if established, constitutes the strongest argument for the politician?
+(Line_0447): A. Compliance with the petition signature requirement is burdensome.
+(Line_0448): B. The objectives of the statute could be satisfactorily achieved by less burdensome means.
+(Line_0449): C. Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.
+(Line_0450): D. The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+after, before write (Line_0444):  
+(Line_0445): According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional.
+(Line_0446): Which of the following, if established, constitutes the strongest argument for the politician?
+(Line_0447): A. Compliance with the petition signature requirement is burdensome.
+(Line_0448): B. The objectives of the statute could be satisfactorily achieved by less burdensome means.
+(Line_0449): C. Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.
+(Line_0450): D. The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(5) {
+  '(Line_0439):',
+  '(Line_0440):',
+  '(Line_0441):',
+  '(Line_0442):',
+  '(Line_0443):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'The state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest.',
+    B: 'The state has the burden of persuading the court that the application of this statute to the father is rationally related to a legitimate state interest.',
+    C: 'The father has the burden of persuading the court that the application of this statute to him is not necessary to accomplish a compelling state interest.',
+    D: 'The father has the burden of persuading the court that the application of this statute to him is not rationally related to a legitimate state interest.'
+  },
+  _correct_answer: 'A',
+  _difficulty_level: 60,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "The government is attempting to restrict a fundamental right, which is the right to raise one's children. When a fundamental right is involved, the strict scrutiny standard applies. Under strict scrutiny, the state must prove that the law is necessary to achieve a compelling state interest and that it is narrowly tailored to address that interest. Thus, the correct answer is that the state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest. Therefore, the correct answer is A.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: "A state statute requires the permanent removal from parental custody of any child who has suffered 'child abuse.' That term is defined to include 'corporal punishment of any sort.' A father very gently spanks his six-year-old son on the buttocks whenever he believes that spanking is necessary to enforce discipline on him. Such a spanking occurs not more than once a month and has never physically harmed the child. The state files suit under the statute to terminate the father's parental rights solely because of these spankings. The father defends only on the ground that the statute in question is unconstitutional as applied to his admitted conduct. In light of the nature of the rights involved, which of the following is the most probable burden of persuasion on this constitutional use?",
+  _question_type: 'MBE',
+  _topic: [ 'Individual rights', 'Due process' ]
+}
+AKH Promise { <pending> }
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 439, 440, 441, 442, 443 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: "A state statute requires the permanent removal from parental custody of any child who has suffered 'child abuse.' That term is defined to include 'corporal punishment of any sort.' A father very gently spanks his six-year-old son on the buttocks whenever he believes that spanking is necessary to enforce discipline on him. Such a spanking occurs not more than once a month and has never physically harmed the child. The state files suit under the statute to terminate the father's parental rights solely because of these spankings. The father defends only on the ground that the statute in question is unconstitutional as applied to his admitted conduct. In light of the nature of the rights involved, which of the following is the most probable burden of persuasion on this constitutional use?",
+  answers: {
+    A: 'The state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest.',
+    B: 'The state has the burden of persuading the court that the application of this statute to the father is rationally related to a legitimate state interest.',
+    C: 'The father has the burden of persuading the court that the application of this statute to him is not necessary to accomplish a compelling state interest.',
+    D: 'The father has the burden of persuading the court that the application of this statute to him is not rationally related to a legitimate state interest.'
+  },
+  correct_answer: 'A',
+  answer_origin: 'Generated',
+  explanation: "The government is attempting to restrict a fundamental right, which is the right to raise one's children. When a fundamental right is involved, the strict scrutiny standard applies. Under strict scrutiny, the state must prove that the law is necessary to achieve a compelling state interest and that it is narrowly tailored to address that interest. Thus, the correct answer is that the state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest. Therefore, the correct answer is A.",
+  explanation_origin: 'Generated',
+  difficulty_level: 60,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'Individual rights', 'Due process' ]
+}
+before (Line_0444):  
+(Line_0445): According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional.
+(Line_0446): Which of the following, if established, constitutes the strongest argument for the politician?
+(Line_0447): A. Compliance with the petition signature requirement is burdensome.
+(Line_0448): B. The objectives of the statute could be satisfactorily achieved by less burdensome means.
+(Line_0449): C. Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.
+(Line_0450): D. The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+after, before write (Line_0444):  
+(Line_0445): According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional.
+(Line_0446): Which of the following, if established, constitutes the strongest argument for the politician?
+(Line_0447): A. Compliance with the petition signature requirement is burdensome.
+(Line_0448): B. The objectives of the statute could be satisfactorily achieved by less burdensome means.
+(Line_0449): C. Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.
+(Line_0450): D. The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(5) {
+  '(Line_0439):',
+  '(Line_0440):',
+  '(Line_0441):',
+  '(Line_0442):',
+  '(Line_0443):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'The state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest.',
+    B: 'The state has the burden of persuading the court that the application of this statute to the father is rationally related to a legitimate state interest.',
+    C: 'The father has the burden of persuading the court that the application of this statute to him is not necessary to accomplish a compelling state interest.',
+    D: 'The father has the burden of persuading the court that the application of this statute to him is not rationally related to a legitimate state interest.'
+  },
+  _correct_answer: 'A',
+  _difficulty_level: 60,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "The government is attempting to restrict a fundamental right, which is the right to raise one's children. When a fundamental right is involved, the strict scrutiny standard applies. Under strict scrutiny, the state must prove that the law is necessary to achieve a compelling state interest and that it is narrowly tailored to address that interest. Thus, the correct answer is that the state has the burden of persuading the court that the application of this statute to the father is necessary to accomplish a compelling state interest. Therefore, the correct answer is A.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: "A state statute requires the permanent removal from parental custody of any child who has suffered 'child abuse.' That term is defined to include 'corporal punishment of any sort.' A father very gently spanks his six-year-old son on the buttocks whenever he believes that spanking is necessary to enforce discipline on him. Such a spanking occurs not more than once a month and has never physically harmed the child. The state files suit under the statute to terminate the father's parental rights solely because of these spankings. The father defends only on the ground that the statute in question is unconstitutional as applied to his admitted conduct. In light of the nature of the rights involved, which of the following is the most probable burden of persuasion on this constitutional use?",
+  _question_type: 'MBE',
+  _topic: [ 'Individual rights', 'Due process' ]
+}
+
+
+Parsing arguments for function insert_mbe_question: {"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [445, 446, 447, 448, 449, 450], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional. Which of the following, if established, constitutes the strongest argument for the politician?", "answers": {"A": "Compliance with the petition signature requirement is burdensome.", "B": "The objectives of the statute could be satisfactorily achieved by less burdensome means.", "C": "Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.", "D": "The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters."}, "correct_answer": "B", "answer_origin": "Generated", "explanation": "When challenging a law that imposes restrictions on ballot access, one of the strongest arguments is that the objectives of the statute could be achieved by less burdensome means. This is in line with the standard of intermediate scrutiny, where the law must be substantially related to an important government interest, but the burden imposed must not be greater than necessary. By showing that less burdensome means are available, the politician would have a strong argument that the statute is not appropriately tailored to achieve the state's objectives. Therefore, the correct answer is B.", "explanation_origin": "Generated", "difficulty_level": 55, "law_category_tags": ["Constitutional Law"], "topic": ["Individual rights", "Equal protection"]}
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 445, 446, 447, 448, 449, 450 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional. Which of the following, if established, constitutes the strongest argument for the politician?',
+  answers: {
+    A: 'Compliance with the petition signature requirement is burdensome.',
+    B: 'The objectives of the statute could be satisfactorily achieved by less burdensome means.',
+    C: 'Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.',
+    D: 'The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.'
+  },
+  correct_answer: 'B',
+  answer_origin: 'Generated',
+  explanation: "When challenging a law that imposes restrictions on ballot access, one of the strongest arguments is that the objectives of the statute could be achieved by less burdensome means. This is in line with the standard of intermediate scrutiny, where the law must be substantially related to an important government interest, but the burden imposed must not be greater than necessary. By showing that less burdensome means are available, the politician would have a strong argument that the statute is not appropriately tailored to achieve the state's objectives. Therefore, the correct answer is B.",
+  explanation_origin: 'Generated',
+  difficulty_level: 55,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'Individual rights', 'Equal protection' ]
+}
+before (Line_0444):  
+(Line_0445): According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional.
+(Line_0446): Which of the following, if established, constitutes the strongest argument for the politician?
+(Line_0447): A. Compliance with the petition signature requirement is burdensome.
+(Line_0448): B. The objectives of the statute could be satisfactorily achieved by less burdensome means.
+(Line_0449): C. Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.
+(Line_0450): D. The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+after, before write (Line_0444):  
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(6) {
+  '(Line_0445):',
+  '(Line_0446):',
+  '(Line_0447):',
+  '(Line_0448):',
+  '(Line_0449):',
+  '(Line_0450):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'Compliance with the petition signature requirement is burdensome.',
+    B: 'The objectives of the statute could be satisfactorily achieved by less burdensome means.',
+    C: 'Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.',
+    D: 'The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.'
+  },
+  _correct_answer: 'B',
+  _difficulty_level: 55,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "When challenging a law that imposes restrictions on ballot access, one of the strongest arguments is that the objectives of the statute could be achieved by less burdensome means. This is in line with the standard of intermediate scrutiny, where the law must be substantially related to an important government interest, but the burden imposed must not be greater than necessary. By showing that less burdensome means are available, the politician would have a strong argument that the statute is not appropriately tailored to achieve the state's objectives. Therefore, the correct answer is B.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional. Which of the following, if established, constitutes the strongest argument for the politician?',
+  _question_type: 'MBE',
+  _topic: [ 'Individual rights', 'Equal protection' ]
+}
+AKH Promise { <pending> }
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 445, 446, 447, 448, 449, 450 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional. Which of the following, if established, constitutes the strongest argument for the politician?',
+  answers: {
+    A: 'Compliance with the petition signature requirement is burdensome.',
+    B: 'The objectives of the statute could be satisfactorily achieved by less burdensome means.',
+    C: 'Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.',
+    D: 'The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.'
+  },
+  correct_answer: 'B',
+  answer_origin: 'Generated',
+  explanation: "When challenging a law that imposes restrictions on ballot access, one of the strongest arguments is that the objectives of the statute could be achieved by less burdensome means. This is in line with the standard of intermediate scrutiny, where the law must be substantially related to an important government interest, but the burden imposed must not be greater than necessary. By showing that less burdensome means are available, the politician would have a strong argument that the statute is not appropriately tailored to achieve the state's objectives. Therefore, the correct answer is B.",
+  explanation_origin: 'Generated',
+  difficulty_level: 55,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'Individual rights', 'Equal protection' ]
+}
+before (Line_0444):  
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+after, before write (Line_0444):  
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(6) {
+  '(Line_0445):',
+  '(Line_0446):',
+  '(Line_0447):',
+  '(Line_0448):',
+  '(Line_0449):',
+  '(Line_0450):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'Compliance with the petition signature requirement is burdensome.',
+    B: 'The objectives of the statute could be satisfactorily achieved by less burdensome means.',
+    C: 'Because of the petition signature requirement, very few independent candidates have ever succeeded in getting on the ballot.',
+    D: 'The motivation for the statute was a desire to keep candidates off the ballot if they did not have strong support among voters.'
+  },
+  _correct_answer: 'B',
+  _difficulty_level: 55,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "When challenging a law that imposes restrictions on ballot access, one of the strongest arguments is that the objectives of the statute could be achieved by less burdensome means. This is in line with the standard of intermediate scrutiny, where the law must be substantially related to an important government interest, but the burden imposed must not be greater than necessary. By showing that less burdensome means are available, the politician would have a strong argument that the statute is not appropriately tailored to achieve the state's objectives. Therefore, the correct answer is B.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'According to a state statute, a candidate for state office may have his name placed on the official election ballot only if he files a petition with the appropriate state official containing a specified number of voter signatures. A politician failed to get his name placed on the state ballot as an independent candidate for governor because he failed to file a petition with the number of voter signatures required by state statute. In a suit against the appropriate state official in federal district court, the politician sought an injunction against signature requirement on the ground that it was unconstitutional. Which of the following, if established, constitutes the strongest argument for the politician?',
+  _question_type: 'MBE',
+  _topic: [ 'Individual rights', 'Equal protection' ]
+}
+MBE question inserted successfully: A state statute requires the...
+MBE question inserted successfully: According to a state statute,...
+Response from insert_mbe_question: null
+MBE question inserted successfully: According to a state statute,...
+MBE question inserted successfully: A state statute requires the...
+Response from worker: {
+  status: 'success',
+  result: [
+    {
+      id: 'call_PasdV7zMsqzzW4ORwB9LR3Lf',
+      type: 'function',
+      function: [Object]
+    },
+    {
+      id: 'call_LtmzxWu7QSlvCrbqV6PxaecT',
+      type: 'function',
+      function: [Object]
+    }
+  ],
+  reprocess: true,
+  filePath: 'preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt'
+}
+Response from insert_mbe_question: null
+All tool calls processed.
+Reprocess: true
+
+
+
+
+
+
+
+
+
+Received file path: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+Received file path: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+response_message: {
+  id: 'chatcmpl-9R0TrILO4ZAZQHiXU8CCbbZFzIj9l',
+  object: 'chat.completion',
+  created: 1716223731,
+  model: 'gpt-4o-2024-05-13',
+  choices: [
+    {
+      index: 0,
+      message: [Object],
+      logprobs: null,
+      finish_reason: 'stop'
+    }
+  ],
+  usage: { prompt_tokens: 3054, completion_tokens: 375, total_tokens: 3429 },
+  system_fingerprint: 'fp_729ea513f7'
+}
+tool_calls: [
+  {
+    id: 'call_id0cN2lOdSBvjVvXypwkfo1w',
+    type: 'function',
+    function: {
+      name: 'insert_mbe_question',
+      arguments: `{"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [451, 452, 453, 454, 455, 456, 457, 458], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably", "answers": {"A": "constitutional, because it creates a limited administrative power to implement the statute.", "B": "constitutional, because inherent executive powers permit such action even without statutory authorization.", "C": "unconstitutional as an undue delegation of legislative power to the executive.", "D": "unconstitutional, because it violates the due process clause of the Fifth Amendment."}, "correct_answer": "C", "answer_origin": "Generated", "explanation": "The provision allowing the President to set the exact percentage is likely unconstitutional. This is because delegating legislative power to the executive without clear and intelligible standards constitutes an undue delegation of power. The Energy Conservation Act does provide specific standards, but the key issue lies in whether those standards are sufficient to guide executive action. While option A suggests it's merely limited administrative power and option B refers to inherent executive powers, both overlook the non-delegation doctrine which restricts such transfers of authority. Option D is incorrect because the due process clause of the Fifth Amendment is not directly relevant to the delegation issue here.", "explanation_origin": "Generated", "difficulty_level": 55, "law_category_tags": ["Constitutional Law"], "topic": ["The separation of powers"]}`
+    }
+  }
+]
+Handling response...
+Processing 1 tool calls
+Parsing arguments for function insert_mbe_question: {"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [451, 452, 453, 454, 455, 456, 457, 458], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably", "answers": {"A": "constitutional, because it creates a limited administrative power to implement the statute.", "B": "constitutional, because inherent executive powers permit such action even without statutory authorization.", "C": "unconstitutional as an undue delegation of legislative power to the executive.", "D": "unconstitutional, because it violates the due process clause of the Fifth Amendment."}, "correct_answer": "C", "answer_origin": "Generated", "explanation": "The provision allowing the President to set the exact percentage is likely unconstitutional. This is because delegating legislative power to the executive without clear and intelligible standards constitutes an undue delegation of power. The Energy Conservation Act does provide specific standards, but the key issue lies in whether those standards are sufficient to guide executive action. While option A suggests it's merely limited administrative power and option B refers to inherent executive powers, both overlook the non-delegation doctrine which restricts such transfers of authority. Option D is incorrect because the due process clause of the Fifth Amendment is not directly relevant to the delegation issue here.", "explanation_origin": "Generated", "difficulty_level": 55, "law_category_tags": ["Constitutional Law"], "topic": ["The separation of powers"]}
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [
+    451, 452, 453,
+    454, 455, 456,
+    457, 458
+  ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  correct_answer: 'C',
+  answer_origin: 'Generated',
+  explanation: "The provision allowing the President to set the exact percentage is likely unconstitutional. This is because delegating legislative power to the executive without clear and intelligible standards constitutes an undue delegation of power. The Energy Conservation Act does provide specific standards, but the key issue lies in whether those standards are sufficient to guide executive action. While option A suggests it's merely limited administrative power and option B refers to inherent executive powers, both overlook the non-delegation doctrine which restricts such transfers of authority. Option D is incorrect because the due process clause of the Fifth Amendment is not directly relevant to the delegation issue here.",
+  explanation_origin: 'Generated',
+  difficulty_level: 55,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'The separation of powers' ]
+}
+before (Line_0444):  
+(Line_0451):  
+(Line_0452): Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed.
+(Line_0453): The provision that allows the President to set the exact percentage is probably
+(Line_0454): A. constitutional, because it creates a limited administrative power to implement the statute.
+(Line_0455): B. constitutional, because inherent executive powers permit such action even without statutory authorization.
+(Line_0456): C. unconstitutional as an undue delegation of legislative power to the executive.
+(Line_0457): D. unconstitutional, because it violates the due process clause of the Fifth Amendment.
+(Line_0458):  
+
+after, before write (Line_0444):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(8) {
+  '(Line_0451):',
+  '(Line_0452):',
+  '(Line_0453):',
+  '(Line_0454):',
+  '(Line_0455):',
+  '(Line_0456):',
+  '(Line_0457):',
+  '(Line_0458):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  _correct_answer: 'C',
+  _difficulty_level: 55,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "The provision allowing the President to set the exact percentage is likely unconstitutional. This is because delegating legislative power to the executive without clear and intelligible standards constitutes an undue delegation of power. The Energy Conservation Act does provide specific standards, but the key issue lies in whether those standards are sufficient to guide executive action. While option A suggests it's merely limited administrative power and option B refers to inherent executive powers, both overlook the non-delegation doctrine which restricts such transfers of authority. Option D is incorrect because the due process clause of the Fifth Amendment is not directly relevant to the delegation issue here.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  _question_type: 'MBE',
+  _topic: [ 'The separation of powers' ]
+}
+AKH Promise { <pending> }
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [
+    451, 452, 453,
+    454, 455, 456,
+    457, 458
+  ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  correct_answer: 'C',
+  answer_origin: 'Generated',
+  explanation: "The provision allowing the President to set the exact percentage is likely unconstitutional. This is because delegating legislative power to the executive without clear and intelligible standards constitutes an undue delegation of power. The Energy Conservation Act does provide specific standards, but the key issue lies in whether those standards are sufficient to guide executive action. While option A suggests it's merely limited administrative power and option B refers to inherent executive powers, both overlook the non-delegation doctrine which restricts such transfers of authority. Option D is incorrect because the due process clause of the Fifth Amendment is not directly relevant to the delegation issue here.",
+  explanation_origin: 'Generated',
+  difficulty_level: 55,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'The separation of powers' ]
+}
+before (Line_0444):  
+
+after, before write (Line_0444):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(8) {
+  '(Line_0451):',
+  '(Line_0452):',
+  '(Line_0453):',
+  '(Line_0454):',
+  '(Line_0455):',
+  '(Line_0456):',
+  '(Line_0457):',
+  '(Line_0458):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  _correct_answer: 'C',
+  _difficulty_level: 55,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "The provision allowing the President to set the exact percentage is likely unconstitutional. This is because delegating legislative power to the executive without clear and intelligible standards constitutes an undue delegation of power. The Energy Conservation Act does provide specific standards, but the key issue lies in whether those standards are sufficient to guide executive action. While option A suggests it's merely limited administrative power and option B refers to inherent executive powers, both overlook the non-delegation doctrine which restricts such transfers of authority. Option D is incorrect because the due process clause of the Fifth Amendment is not directly relevant to the delegation issue here.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  _question_type: 'MBE',
+  _topic: [ 'The separation of powers' ]
+}
+MBE question inserted successfully: Congress passes an Energy Conservation...
+Response from worker: {
+  status: 'success',
+  result: [
+    {
+      id: 'call_id0cN2lOdSBvjVvXypwkfo1w',
+      type: 'function',
+      function: [Object]
+    }
+  ],
+  reprocess: true,
+  filePath: 'preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt'
+}
+Response from insert_mbe_question: null
+All tool calls processed.
+Reprocess: true
+
+
+
+
+
+
+
+
+
+
+
+
+Received file path: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+Received file path: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+MBE question inserted successfully: Congress passes an Energy Conservation...
+response_message: {
+  id: 'chatcmpl-9R0TsALRKQvcltQl9LEXaxMoj4OIL',
+  object: 'chat.completion',
+  created: 1716223732,
+  model: 'gpt-4o-2024-05-13',
+  choices: [
+    {
+      index: 0,
+      message: [Object],
+      logprobs: null,
+      finish_reason: 'stop'
+    }
+  ],
+  usage: { prompt_tokens: 3054, completion_tokens: 370, total_tokens: 3424 },
+  system_fingerprint: 'fp_729ea513f7'
+}
+tool_calls: [
+  {
+    id: 'call_SGEenbUUMsNuG4z2aB3KK5wV',
+    type: 'function',
+    function: {
+      name: 'insert_mbe_question',
+      arguments: '{"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [452, 453, 454, 455, 456, 457], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably", "answers": {"A": "constitutional, because it creates a limited administrative power to implement the statute.", "B": "constitutional, because inherent executive powers permit such action even without statutory authorization.", "C": "unconstitutional as an undue delegation of legislative power to the executive.", "D": "unconstitutional, because it violates the due process clause of the Fifth Amendment."}, "correct_answer": "C", "answer_origin": "Document", "explanation": "The provision allowing the President to set the exact percentage in energy reduction is likely unconstitutional as an undue delegation of legislative power to the executive. While Congress can delegate certain powers to the executive branch, it must provide an intelligible principle to guide the exercise of those powers. Here, although specific standards and detailed procedures are set, allowing the President to determine the exact percentage crosses the line into legislative territory, which only Congress can control. This is not a matter of inherent executive power, as the setting of percentages is distinctly legislative. Therefore, the best answer is C.", "explanation_origin": "Generated", "difficulty_level": 60, "law_category_tags": ["Constitutional Law"], "topic": ["The separation of powers", "The powers of the president"]}'
+    }
+  }
+]
+Handling response...
+Processing 1 tool calls
+Parsing arguments for function insert_mbe_question: {"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [452, 453, 454, 455, 456, 457], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably", "answers": {"A": "constitutional, because it creates a limited administrative power to implement the statute.", "B": "constitutional, because inherent executive powers permit such action even without statutory authorization.", "C": "unconstitutional as an undue delegation of legislative power to the executive.", "D": "unconstitutional, because it violates the due process clause of the Fifth Amendment."}, "correct_answer": "C", "answer_origin": "Document", "explanation": "The provision allowing the President to set the exact percentage in energy reduction is likely unconstitutional as an undue delegation of legislative power to the executive. While Congress can delegate certain powers to the executive branch, it must provide an intelligible principle to guide the exercise of those powers. Here, although specific standards and detailed procedures are set, allowing the President to determine the exact percentage crosses the line into legislative territory, which only Congress can control. This is not a matter of inherent executive power, as the setting of percentages is distinctly legislative. Therefore, the best answer is C.", "explanation_origin": "Generated", "difficulty_level": 60, "law_category_tags": ["Constitutional Law"], "topic": ["The separation of powers", "The powers of the president"]}
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 452, 453, 454, 455, 456, 457 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  correct_answer: 'C',
+  answer_origin: 'Document',
+  explanation: 'The provision allowing the President to set the exact percentage in energy reduction is likely unconstitutional as an undue delegation of legislative power to the executive. While Congress can delegate certain powers to the executive branch, it must provide an intelligible principle to guide the exercise of those powers. Here, although specific standards and detailed procedures are set, allowing the President to determine the exact percentage crosses the line into legislative territory, which only Congress can control. This is not a matter of inherent executive power, as the setting of percentages is distinctly legislative. Therefore, the best answer is C.',
+  explanation_origin: 'Generated',
+  difficulty_level: 60,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'The separation of powers', 'The powers of the president' ]
+}
+before (Line_0444):  
+
+after, before write (Line_0444):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(6) {
+  '(Line_0452):',
+  '(Line_0453):',
+  '(Line_0454):',
+  '(Line_0455):',
+  '(Line_0456):',
+  '(Line_0457):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Document',
+  _answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  _correct_answer: 'C',
+  _difficulty_level: 60,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: 'The provision allowing the President to set the exact percentage in energy reduction is likely unconstitutional as an undue delegation of legislative power to the executive. While Congress can delegate certain powers to the executive branch, it must provide an intelligible principle to guide the exercise of those powers. Here, although specific standards and detailed procedures are set, allowing the President to determine the exact percentage crosses the line into legislative territory, which only Congress can control. This is not a matter of inherent executive power, as the setting of percentages is distinctly legislative. Therefore, the best answer is C.',
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  _question_type: 'MBE',
+  _topic: [ 'The separation of powers', 'The powers of the president' ]
+}
+AKH Promise { <pending> }
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 452, 453, 454, 455, 456, 457 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  correct_answer: 'C',
+  answer_origin: 'Document',
+  explanation: 'The provision allowing the President to set the exact percentage in energy reduction is likely unconstitutional as an undue delegation of legislative power to the executive. While Congress can delegate certain powers to the executive branch, it must provide an intelligible principle to guide the exercise of those powers. Here, although specific standards and detailed procedures are set, allowing the President to determine the exact percentage crosses the line into legislative territory, which only Congress can control. This is not a matter of inherent executive power, as the setting of percentages is distinctly legislative. Therefore, the best answer is C.',
+  explanation_origin: 'Generated',
+  difficulty_level: 60,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'The separation of powers', 'The powers of the president' ]
+}
+before (Line_0444):  
+
+after, before write (Line_0444):  
+
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(6) {
+  '(Line_0452):',
+  '(Line_0453):',
+  '(Line_0454):',
+  '(Line_0455):',
+  '(Line_0456):',
+  '(Line_0457):'
+}
+Calling Supabase function with payload: {
+  _answer_origin: 'Document',
+  _answers: {
+    A: 'constitutional, because it creates a limited administrative power to implement the statute.',
+    B: 'constitutional, because inherent executive powers permit such action even without statutory authorization.',
+    C: 'unconstitutional as an undue delegation of legislative power to the executive.',
+    D: 'unconstitutional, because it violates the due process clause of the Fifth Amendment.'
+  },
+  _correct_answer: 'C',
+  _difficulty_level: 60,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: 'The provision allowing the President to set the exact percentage in energy reduction is likely unconstitutional as an undue delegation of legislative power to the executive. While Congress can delegate certain powers to the executive branch, it must provide an intelligible principle to guide the exercise of those powers. Here, although specific standards and detailed procedures are set, allowing the President to determine the exact percentage crosses the line into legislative territory, which only Congress can control. This is not a matter of inherent executive power, as the setting of percentages is distinctly legislative. Therefore, the best answer is C.',
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'Congress passes an Energy Conservation Act. The act requires all users of energy in this country to reduce their consumption by a specified percentage, to be set by a presidential executive order. The act sets forth specific standards the President must use in setting the percentage and detailed procedures to be followed. The provision that allows the President to set the exact percentage is probably',
+  _question_type: 'MBE',
+  _topic: [ 'The separation of powers', 'The powers of the president' ]
+}
+MBE question inserted successfully: Congress passes an Energy Conservation...
+Response from worker: {
+  status: 'success',
+  result: [
+    {
+      id: 'call_SGEenbUUMsNuG4z2aB3KK5wV',
+      type: 'function',
+      function: [Object]
+    }
+  ],
+  reprocess: true,
+  filePath: 'preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt'
+}
+Response from insert_mbe_question: null
+All tool calls processed.
+Reprocess: true
+
+
+
+
+
+
+
+
+
+Received file path: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+Received file path: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt
+MBE question inserted successfully: Congress passes an Energy Conservation...
+response_message: {
+  id: 'chatcmpl-9R0Tx0ldBD7BWgPmfG9uaIsCueb6Y',
+  object: 'chat.completion',
+  created: 1716223737,
+  model: 'gpt-4o-2024-05-13',
+  choices: [
+    {
+      index: 0,
+      message: [Object],
+      logprobs: null,
+      finish_reason: 'stop'
+    }
+  ],
+  usage: { prompt_tokens: 2880, completion_tokens: 284, total_tokens: 3164 },
+  system_fingerprint: 'fp_729ea513f7'
+}
+tool_calls: [
+  {
+    id: 'call_Og8l6nWsm05CXtk8XpOBDgWX',
+    type: 'function',
+    function: {
+      name: 'insert_mbe_question',
+      arguments: `{"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [444], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "What is the doctrine of mootness?", "answers": {"A": "The doctrine that requires courts to resolve actual controversies and not hypothetical disputes.", "B": "The doctrine that precludes courts from issuing advisory opinions.", "C": "The doctrine that allows courts to hear cases removed from state to federal court.", "D": "The doctrine that prevents federal courts from deciding cases that have lost their actual controversy due to changes in circumstances."}, "correct_answer": "D", "answer_origin": "Generated", "explanation": "The doctrine of mootness prevents federal courts from deciding cases that, due to changes in circumstances, no longer present an actual, ongoing controversy. This doctrine ensures that courts do not waste resources on hypothetical disputes. Option A describes the doctrine of 'case or controversy,' Option B describes the prohibition on advisory opinions, and Option C mischaracterizes the doctrine of removal. Therefore, the correct answer is D.", "explanation_origin": "Generated", "difficulty_level": 45, "law_category_tags": ["Constitutional Law"], "topic": ["The nature of judicial review"]}`
+    }
+  },
+  {
+    id: 'call_yb5DstkeGsD5rIx0CkXNlNQ5',
+    type: 'function',
+    function: {
+      name: 'end_document_processing',
+      arguments: '{"end_document_processing": true}'
+    }
+  }
+]
+
+
+
+
+
+
+
+
+
+
+
+Handling response...
+Processing 2 tool calls
+Parsing arguments for function insert_mbe_question: {"Document_title": "Con_Law_with_line_numbers_tiny", "Doc_Lines_to_Delete": [444], "Document_Date": "NA", "Publisher": "NA", "question_type": "MBE", "question": "What is the doctrine of mootness?", "answers": {"A": "The doctrine that requires courts to resolve actual controversies and not hypothetical disputes.", "B": "The doctrine that precludes courts from issuing advisory opinions.", "C": "The doctrine that allows courts to hear cases removed from state to federal court.", "D": "The doctrine that prevents federal courts from deciding cases that have lost their actual controversy due to changes in circumstances."}, "correct_answer": "D", "answer_origin": "Generated", "explanation": "The doctrine of mootness prevents federal courts from deciding cases that, due to changes in circumstances, no longer present an actual, ongoing controversy. This doctrine ensures that courts do not waste resources on hypothetical disputes. Option A describes the doctrine of 'case or controversy,' Option B describes the prohibition on advisory opinions, and Option C mischaracterizes the doctrine of removal. Therefore, the correct answer is D.", "explanation_origin": "Generated", "difficulty_level": 45, "law_category_tags": ["Constitutional Law"], "topic": ["The nature of judicial review"]}
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 444 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'What is the doctrine of mootness?',
+  answers: {
+    A: 'The doctrine that requires courts to resolve actual controversies and not hypothetical disputes.',
+    B: 'The doctrine that precludes courts from issuing advisory opinions.',
+    C: 'The doctrine that allows courts to hear cases removed from state to federal court.',
+    D: 'The doctrine that prevents federal courts from deciding cases that have lost their actual controversy due to changes in circumstances.'
+  },
+  correct_answer: 'D',
+  answer_origin: 'Generated',
+  explanation: "The doctrine of mootness prevents federal courts from deciding cases that, due to changes in circumstances, no longer present an actual, ongoing controversy. This doctrine ensures that courts do not waste resources on hypothetical disputes. Option A describes the doctrine of 'case or controversy,' Option B describes the prohibition on advisory opinions, and Option C mischaracterizes the doctrine of removal. Therefore, the correct answer is D.",
+  explanation_origin: 'Generated',
+  difficulty_level: 45,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'The nature of judicial review' ]
+}
+before (Line_0444):  
+
+after, before write 
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(1) { '(Line_0444):' }
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'The doctrine that requires courts to resolve actual controversies and not hypothetical disputes.',
+    B: 'The doctrine that precludes courts from issuing advisory opinions.',
+    C: 'The doctrine that allows courts to hear cases removed from state to federal court.',
+    D: 'The doctrine that prevents federal courts from deciding cases that have lost their actual controversy due to changes in circumstances.'
+  },
+  _correct_answer: 'D',
+  _difficulty_level: 45,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "The doctrine of mootness prevents federal courts from deciding cases that, due to changes in circumstances, no longer present an actual, ongoing controversy. This doctrine ensures that courts do not waste resources on hypothetical disputes. Option A describes the doctrine of 'case or controversy,' Option B describes the prohibition on advisory opinions, and Option C mischaracterizes the doctrine of removal. Therefore, the correct answer is D.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'What is the doctrine of mootness?',
+  _question_type: 'MBE',
+  _topic: [ 'The nature of judicial review' ]
+}
+AKH Promise { <pending> }
+Inserting MBE question with args: {
+  Document_title: 'Con_Law_with_line_numbers_tiny',
+  Doc_Lines_to_Delete: [ 444 ],
+  Document_Date: 'NA',
+  Publisher: 'NA',
+  question_type: 'MBE',
+  question: 'What is the doctrine of mootness?',
+  answers: {
+    A: 'The doctrine that requires courts to resolve actual controversies and not hypothetical disputes.',
+    B: 'The doctrine that precludes courts from issuing advisory opinions.',
+    C: 'The doctrine that allows courts to hear cases removed from state to federal court.',
+    D: 'The doctrine that prevents federal courts from deciding cases that have lost their actual controversy due to changes in circumstances.'
+  },
+  correct_answer: 'D',
+  answer_origin: 'Generated',
+  explanation: "The doctrine of mootness prevents federal courts from deciding cases that, due to changes in circumstances, no longer present an actual, ongoing controversy. This doctrine ensures that courts do not waste resources on hypothetical disputes. Option A describes the doctrine of 'case or controversy,' Option B describes the prohibition on advisory opinions, and Option C mischaracterizes the doctrine of removal. Therefore, the correct answer is D.",
+  explanation_origin: 'Generated',
+  difficulty_level: 45,
+  law_category_tags: [ 'Constitutional Law' ],
+  topic: [ 'The nature of judicial review' ]
+}
+before 
+after, before write 
+Processed content removed from file: preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt Set(1) { '(Line_0444):' }
+Calling Supabase function with payload: {
+  _answer_origin: 'Generated',
+  _answers: {
+    A: 'The doctrine that requires courts to resolve actual controversies and not hypothetical disputes.',
+    B: 'The doctrine that precludes courts from issuing advisory opinions.',
+    C: 'The doctrine that allows courts to hear cases removed from state to federal court.',
+    D: 'The doctrine that prevents federal courts from deciding cases that have lost their actual controversy due to changes in circumstances.'
+  },
+  _correct_answer: 'D',
+  _difficulty_level: 45,
+  _document_date: 'NA',
+  _document_title: 'Con_Law_with_line_numbers_tiny',
+  _explanation: "The doctrine of mootness prevents federal courts from deciding cases that, due to changes in circumstances, no longer present an actual, ongoing controversy. This doctrine ensures that courts do not waste resources on hypothetical disputes. Option A describes the doctrine of 'case or controversy,' Option B describes the prohibition on advisory opinions, and Option C mischaracterizes the doctrine of removal. Therefore, the correct answer is D.",
+  _explanation_origin: 'Generated',
+  _law_category_tags: [ 'Constitutional Law' ],
+  _publisher: 'NA',
+  _question: 'What is the doctrine of mootness?',
+  _question_type: 'MBE',
+  _topic: [ 'The nature of judicial review' ]
+}
+Parsing arguments for function end_document_processing: {"end_document_processing": true}
+Document processing completed.
+Document processing logged successfully
+AKH Promise { <pending> }
+Document processing completed.
+Document processing logged successfully
+Response from end_document_processing: Document processing logged successfully
+MBE question inserted successfully: What is the doctrine of...
+MBE question inserted successfully: What is the doctrine of...
+Response from worker: {
+  status: 'success',
+  result: [
+    {
+      id: 'call_Og8l6nWsm05CXtk8XpOBDgWX',
+      type: 'function',
+      function: [Object]
+    },
+    {
+      id: 'call_yb5DstkeGsD5rIx0CkXNlNQ5',
+      type: 'function',
+      function: [Object]
+    }
+  ],
+  reprocess: false,
+  filePath: 'preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt'
+}
+All tasks completed.
+Response from worker: {
+  status: 'success',
+  filePath: 'preprocessed_folder_test_tiny/Con_Law_with_line_numbers_tiny.txt'
+}
+All tasks completed.
+Response from insert_mbe_question: null
+All tool calls processed.
+Reprocess: false
+Worker stopped with exit code 
+
+521:
+One-shot example (last resort):
+/*
+Complex Example Question/Answer Pair:
+Question: 
+\`(Line_0863): The National Ecological Balance Act prohibits the destruction or removal of any wild animals located on lands owned by the United States without express permission from the Federal Bureau of Land Management. Violaters are subject to fines of up to $1,000 per offense.
+
+(Line_0865): After substantial property damage was inflicted on residents of a particular state by hungry coyotes, the state legislature passed the Coyote Bounty Bill, which offers $25 for each coyote killed or captured within the state. A national forest, owned by the federal government, is located entirely within the state. Many coyotes live in this national forest.
+
+(Line_0867): Without seeking permission from the Bureau of Land Management, a hunter shot several coyotes in the national forest and collected the bounty from the state. As a result, he was subsequently tried in federal district court, convicted, and fined $1,000 for violating the National Ecological Balance Act. A hunter appealed his conviction to the United States Court of Appeals.
+
+(Line_0869): On appeal, the Court of Appeals should hold the National Ecological Balance Act, as applied to a hunter to be
+(Line_0870): A. constitutional, because the property clause of Article IV, Section 3, of the Constitution authorizes such federal statutory controls and sanctions.
+(Line_0871): B. constitutional, because Article I, Section 8, of the Constitution authorizes Congress to enact all laws necessary and proper to advance the general welfare.
+(Line_0872): C. unconstitutional, because Congress may not use its delegated powers to override the Tenth Amendment right of the state to legislate in areas of traditional state governmental functions, such as the protection of the property of its residents.
+(Line_0873): D. unconstitutional, because Congress violates the full faith and credit clause of Article IV when it punishes conduct that has been authorized by state action.\`
+---LATER---
+Answer: A is the correct answer. The government may regulate the time, place, and manner of speech as long as that regulation: 1) is content neutral, 2) serves a substantial governmental interest, and 3) is narrowly tailored so that there are alternative avenues of expression open. This regulation is a time, place, and manner regulation because it affects only the volume of the expression. B, C, and D give the incorrect standards for this type of regulation.
+->Output: {_answer_origin: 'Document',_answers: {"A": "constitutional, because the property clause of Article IV, Section 3, of the Constitution authorizes such federal statutory controls and sanctions.", "B": "constitutional, because Article I, Section 8, of the Constitution authorizes Congress to enact all laws necessary and proper to advance the general welfare.","C":"unconstitutional, because Congress may not use its delegated powers to override the Tenth Amendment right of the state to legislate in areas of traditional state governmental functions, such as the protection of the property of its residents.","D":"unconstitutional, because Congress violates the full faith and credit clause of Article IV when it punishes conduct that has been authorized by state action."},_correct_answer: A,    _difficulty_level: 75,_document_date: NA,_document_title: Con_Law_with_line_numbers,_explanation: "The government may regulate the time, place, and manner of speech as long as that regulation: 1) is content neutral, 2) serves a substantial governmental interest, and 3) is narrowly tailored so that there are alternative avenues of expression open. This regulation is a time, place, and manner regulation because it affects only the volume of the expression. B, C, and D give the incorrect standards for this type of regulation.",     _explanation_origin: "Document",_law_category_tags: ["Constitutional Law"],_publisher: NA,_question: "The National Ecological Balance Act prohibits the destruction or removal of any wild animals located on lands owned by the United States without express permission from the Federal Bureau of Land Management. Violaters are subject to fines of up to $1,000 per offense.\nAfter substantial property damage was inflicted on residents of a particular state by hungry coyotes, the state legislature passed the Coyote Bounty Bill, which offers $25 for each coyote killed or captured within the state. A national forest, owned by the federal government, is located entirely within the state. Many coyotes live in this national forest.\nWithout seeking permission from the Bureau of Land Management, a hunter shot several coyotes in the national forest and collected the bounty from the state. As a result, he was subsequently tried in federal district court, convicted, and fined $1,000 for violating the National Ecological Balance Act. A hunter appealed his conviction to the United States Court of Appeals.\nOn appeal, the Court of Appeals should hold the National Ecological Balance Act, as applied to a hunter to be",_question_type: "MBE",_topic: ["The separation of powers","The relation of nation and states in a federal system","Jurisdiction and venue"]}
+*/
+
+
+6 complex question test:
+
+(Line_0855): In response to massive layoffs of employees of automobile assembly plants located in a particular state, the legislature of that state enacted a statute which prohibits the parking of automobiles manufactured outside of the United States in any parking lot or parking structure that is owned or operated by the state or any of its instrumentalities. This statute does not apply to parking on public streets.
+
+(Line_0857): Which of the following is the strongest argument with which to challenge the constitutionality of this statute?
+(Line_0858): A. The statute imposes an undue burden on foreign commerce.
+(Line_0859): B. The statute denies the owners of foreign-made automobiles the equal protection of the laws.
+(Line_0860): C. The statute deprives the owners of foreign-made automobiles of liberty or property without due process of law.
+(Line_0861): D. The statute is inconsistent with the privileges and immunities clause of the Fourteenth Amendment.
+(Line_0862):  
+(Line_0863): The National Ecological Balance Act prohibits the destruction or removal of any wild animals located on lands owned by the United States without express permission from the Federal Bureau of Land Management. Violaters are subject to fines of up to $1,000 per offense.
+
+(Line_0865): After substantial property damage was inflicted on residents of a particular state by hungry coyotes, the state legislature passed the Coyote Bounty Bill, which offers $25 for each coyote killed or captured within the state. A national forest, owned by the federal government, is located entirely within the state. Many coyotes live in this national forest.
+
+(Line_0867): Without seeking permission from the Bureau of Land Management, a hunter shot several coyotes in the national forest and collected the bounty from the state. As a result, he was subsequently tried in federal district court, convicted, and fined $1,000 for violating the National Ecological Balance Act. A hunter appealed his conviction to the United States Court of Appeals.
+
+(Line_0869): On appeal, the Court of Appeals should hold the National Ecological Balance Act, as applied to a hunter to be
+(Line_0870): A. constitutional, because the property clause of Article IV, Section 3, of the Constitution authorizes such federal statutory controls and sanctions.
+(Line_0871): B. constitutional, because Article I, Section 8, of the Constitution authorizes Congress to enact all laws necessary and proper to advance the general welfare.
+(Line_0872): C. unconstitutional, because Congress may not use its delegated powers to override the Tenth Amendment right of the state to legislate in areas of traditional state governmental functions, such as the protection of the property of its residents.
+(Line_0873): D. unconstitutional, because Congress violates the full faith and credit clause of Article IV when it punishes conduct that has been authorized by state action.
+(Line_0874):  
+(Line_0875): A law of a state imposed a generally applicable sales tax payable by the vendor. That law exempted from its provisions the sale of "all magazines, periodicals, newspapers, and books." In order to raise additional revenue, the state legislature eliminated that broad exemption and substituted a narrower exemption. The new, narrower exemption excluded from the state sales tax only the sale of those "magazines, periodicals, newspapers, and books that are published or distributed by a recognized religious faith and that consist wholly of writings sacred to such a religious faith."
+
+(Line_0877): One magazine is a monthly publication devoted to history and politics. The magazine paid under protest the sales tax due on its sales according to the amended sales tax law. The magazine then filed suit against the state in an appropriate state court for a refund of the sales taxes paid. It contended that the state's elimination of the earlier, broader exemption and adoption of the new, narrower exemption restricted to sacred writings of recognized religious faiths violates the First and Fourteenth Amendments to the Constitution. In this case, the court will probably rule that
+(Line_0878): A. the magazine lacks standing to sue for a refund of sales taxes imposed by a generally applicable state law because Article III of the Constitution precludes taxpayers from bringing such suits.
+(Line_0879): B. the Eleventh Amendment bars the state court from exercising jurisdiction over this suit in the absence of a law of the state expressly waiving the state's immunity.
+(Line_0880): C. the new, narrower exemption from the state sales tax law violates the establishment clause of the First and Fourteenth Amendments by granting preferential state support to recognized religious faiths for the communication of their religious beliefs.
+(Line_0881): D. the new, narrower exemption from the state sales tax law violates the freedom of the press guaranteed by the First and Fourteenth Amendments because it imposes a prior restraint on nonreligious publications that are required to pay the tax.
+(Line_0882):  
+(Line_0883): A statute in a particular state provided state monetary grants to private dance, theater, and opera groups located in that state. The statute required recipients of such grants to use the granted monies for the acquisition, construction, and maintenance of appropriate facilities for the public performance of their performing arts. The last section of the statute conditioned the award of each such grant on the recipient's agreement to refrain from all kinds of political lobbying calculated to secure additional tax support for the performing arts. The strongest constitutional basis for an attack upon the validity of the last section of the statute would be based upon the
+(Line_0884): A. commerce clause.
+(Line_0885): B. obligation of contracts clause.
+(Line_0886): C. Fifth Amendment.
+(Line_0887): D. First and Fourteenth Amendments.
+(Line_0888):  
+(Line_0889):  X--Assume that Congress passed and the President signed the following statute:"The appellate jurisdiction of the United States Supreme Court shall not extend to any case involving the constitutionality of any state statute limiting the circumstances in which a woman may obtain an abortion, or involving the constitutionality of this statute." The strongest argument against the constitutionality of this statute is that
+
+(Line_0891): A. Congress may not exercise its authority over the appellate jurisdiction of the Supreme Court in a way that seriously interferes with the establishment of a supreme and uniform body of federal constitutional law.
+(Line_0892): B. Congress may only regulate the appellate jurisdiction of the Supreme Court over cases initially arising in federal courts.
+(Line_0893): C. the appellate jurisdiction of the Supreme Court may only be altered by a constitutional amendment.
+(Line_0894): D. the statute violates the equal protection clause of the Fourteenth Amendment.
+(Line_0895):  
+(Line_0896): The federal statute admitting a particular state to the Union granted the state certain public lands, and established some very ambiguous conditions on the subsequent disposition of these lands by the state. This federal statute also required the new state to write those exact same conditions into its state constitution. One hundred years later, a statute of the state dealing with the sale of these public lands was challenged in a state court lawsuit on the ground that it was inconsistent with the conditions contained in the federal statute, and with the provisions of the state constitution that exactly copy the conditions contained in the federal statute. The trial court decision in this case was appealed to the state supreme court. In its opinion, the state supreme court dealt at length with the ambiguous language of the federal statute and with cases interpreting identical language in federal statutes admitting other states to the union. The state supreme court opinion did not discuss the similar provisions of the state constitution, but it did hold that the challenged state statute is invalid because it is "inconsistent with the language of the federal statute and therefore is inconsistent with the identical provisions of our state constitution."
+(Line_0897): If the losing party in the state supreme court seeks review of the decision of that court in the United States Supreme Court, the United States Supreme Court should
+(Line_0898): A. accept the case for review and determine the validity and interpretation of the federal statute if it is an important and substantial question.
+(Line_0899): B. ask the state supreme court to indicate more clearly whether it relied on the state constitutional provision in rendering its decision.
+(Line_0900): C. decline to review the case on the ground that the decision of the state supreme court rests on an adequate and independent state ground.
+(Line_0901): D. decline to review the case because a decision by a state supreme court concerning the proper disposition of state public lands is not reviewable by the United States Supreme Court.
+(Line_0902):  
+
+
+
+
+
+
+
+
+
+
+
+
+(Line_0858): A. The statute imposes an undue burden on foreign commerce.
+(Line_0859): B. The statute denies the owners of foreign-made automobiles the equal protection of the laws.
+(Line_0860): C. The statute deprives the owners of foreign-made automobiles of liberty or property without due process of law.
+(Line_0861): D. The statute is inconsistent with the privileges and immunities clause of the Fourteenth Amendment.
+(Line_0862):  
+(Line_0863): The National Ecological Balance Act prohibits the destruction or removal of any wild animals located on lands owned by the United States without express permission from the Federal Bureau of Land Management. Violaters are subject to fines of up to $1,000 per offense.
+
+(Line_0865): After substantial property damage was inflicted on residents of a particular state by hungry coyotes, the state legislature passed the Coyote Bounty Bill, which offers $25 for each coyote killed or captured within the state. A national forest, owned by the federal government, is located entirely within the state. Many coyotes live in this national forest.
+
+(Line_0867): Without seeking permission from the Bureau of Land Management, a hunter shot several coyotes in the national forest and collected the bounty from the state. As a result, he was subsequently tried in federal district court, convicted, and fined $1,000 for violating the National Ecological Balance Act. A hunter appealed his conviction to the United States Court of Appeals.
+
+(Line_0869): On appeal, the Court of Appeals should hold the National Ecological Balance Act, as applied to a hunter to be
+(Line_0870): A. constitutional, because the property clause of Article IV, Section 3, of the Constitution authorizes such federal statutory controls and sanctions.
+(Line_0871): B. constitutional, because Article I, Section 8, of the Constitution authorizes Congress to enact all laws necessary and proper to advance the general welfare.
+(Line_0872): C. unconstitutional, because Congress may not use its delegated powers to override the Tenth Amendment right of the state to legislate in areas of traditional state governmental functions, such as the protection of the property of its residents.
+(Line_0873): D. unconstitutional, because Congress violates the full faith and credit clause of Article IV when it punishes conduct that has been authorized by state action.
+(Line_0874):  
+(Line_0875): A law of a state imposed a generally applicable sales tax payable by the vendor. That law exempted from its provisions the sale of "all magazines, periodicals, newspapers, and books." In order to raise additional revenue, the state legislature eliminated that broad exemption and substituted a narrower exemption. The new, narrower exemption excluded from the state sales tax only the sale of those "magazines, periodicals, newspapers, and books that are published or distributed by a recognized religious faith and that consist wholly of writings sacred to such a religious faith."
+
+(Line_0877): One magazine is a monthly publication devoted to history and politics. The magazine paid under protest the sales tax due on its sales according to the amended sales tax law. The magazine then filed suit against the state in an appropriate state court for a refund of the sales taxes paid. It contended that the state's elimination of the earlier, broader exemption and adoption of the new, narrower exemption restricted to sacred writings of recognized religious faiths violates the First and Fourteenth Amendments to the Constitution. In this case, the court will probably rule that
+(Line_0878): A. the magazine lacks standing to sue for a refund of sales taxes imposed by a generally applicable state law because Article III of the Constitution precludes taxpayers from bringing such suits.
+(Line_0879): B. the Eleventh Amendment bars the state court from exercising jurisdiction over this suit in the absence of a law of the state expressly waiving the state's immunity.
+(Line_0880): C. the new, narrower exemption from the state sales tax law violates the establishment clause of the First and Fourteenth Amendments by granting preferential state support to recognized religious faiths for the communication of their religious beliefs.
+(Line_0881): D. the new, narrower exemption from the state sales tax law violates the freedom of the press guaranteed by the First and Fourteenth Amendments because it imposes a prior restraint on nonreligious publications that are required to pay the tax.
+(Line_0882):  
+(Line_0883): A statute in a particular state provided state monetary grants to private dance, theater, and opera groups located in that state. The statute required recipients of such grants to use the granted monies for the acquisition, construction, and maintenance of appropriate facilities for the public performance of their performing arts. The last section of the statute conditioned the award of each such grant on the recipient's agreement to refrain from all kinds of political lobbying calculated to secure additional tax support for the performing arts. The strongest constitutional basis for an attack upon the validity of the last section of the statute would be based upon the
+(Line_0884): A. commerce clause.
+(Line_0885): B. obligation of contracts clause.
+(Line_0886): C. Fifth Amendment.
+(Line_0887): D. First and Fourteenth Amendments.
+(Line_0888):  
+(Line_0889):  X--Assume that Congress passed and the President signed the following statute:"The appellate jurisdiction of the United States Supreme Court shall not extend to any case involving the constitutionality of any state statute limiting the circumstances in which a woman may obtain an abortion, or involving the constitutionality of this statute." The strongest argument against the constitutionality of this statute is that
+
+(Line_0891): A. Congress may not exercise its authority over the appellate jurisdiction of the Supreme Court in a way that seriously interferes with the establishment of a supreme and uniform body of federal constitutional law.
+(Line_0892): B. Congress may only regulate the appellate jurisdiction of the Supreme Court over cases initially arising in federal courts.
+(Line_0893): C. the appellate jurisdiction of the Supreme Court may only be altered by a constitutional amendment.
+(Line_0894): D. the statute violates the equal protection clause of the Fourteenth Amendment.
+(Line_0895):  
+(Line_0896): The federal statute admitting a particular state to the Union granted the state certain public lands, and established some very ambiguous conditions on the subsequent disposition of these lands by the state. This federal statute also required the new state to write those exact same conditions into its state constitution. One hundred years later, a statute of the state dealing with the sale of these public lands was challenged in a state court lawsuit on the ground that it was inconsistent with the conditions contained in the federal statute, and with the provisions of the state constitution that exactly copy the conditions contained in the federal statute. The trial court decision in this case was appealed to the state supreme court. In its opinion, the state supreme court dealt at length with the ambiguous language of the federal statute and with cases interpreting identical language in federal statutes admitting other states to the union. The state supreme court opinion did not discuss the similar provisions of the state constitution, but it did hold that the challenged state statute is invalid because it is "inconsistent with the language of the federal statute and therefore is inconsistent with the identical provisions of our state constitution."
+(Line_0897): If the losing party in the state supreme court seeks review of the decision of that court in the United States Supreme Court, the United States Supreme Court should
+(Line_0898): A. accept the case for review and determine the validity and interpretation of the federal statute if it is an important and substantial question.
+(Line_0899): B. ask the state supreme court to indicate more clearly whether it relied on the state constitutional provision in rendering its decision.
+(Line_0900): C. decline to review the case on the ground that the decision of the state supreme court rests on an adequate and independent state ground.
+(Line_0901): D. decline to review the case because a decision by a state supreme court concerning the proper disposition of state public lands is not reviewable by the United States Supreme Court.
+(Line_0902):  
+
+
+(Line_0858): A. The statute imposes an undue burden on foreign commerce.
+(Line_0859): B. The statute denies the owners of foreign-made automobiles the equal protection of the laws.
+(Line_0860): C. The statute deprives the owners of foreign-made automobiles of liberty or property without due process of law.
+(Line_0861): D. The statute is inconsistent with the privileges and immunities clause of the Fourteenth Amendment.
+(Line_0862):  
+(Line_0863): The National Ecological Balance Act prohibits the destruction or removal of any wild animals located on lands owned by the United States without express permission from the Federal Bureau of Land Management. Violaters are subject to fines of up to $1,000 per offense.
+
+(Line_0865): After substantial property damage was inflicted on residents of a particular state by hungry coyotes, the state legislature passed the Coyote Bounty Bill, which offers $25 for each coyote killed or captured within the state. A national forest, owned by the federal government, is located entirely within the state. Many coyotes live in this national forest.
+
+(Line_0867): Without seeking permission from the Bureau of Land Management, a hunter shot several coyotes in the national forest and collected the bounty from the state. As a result, he was subsequently tried in federal district court, convicted, and fined $1,000 for violating the National Ecological Balance Act. A hunter appealed his conviction to the United States Court of Appeals.
+
+(Line_0874):  
+(Line_0875): A law of a state imposed a generally applicable sales tax payable by the vendor. That law exempted from its provisions the sale of "all magazines, periodicals, newspapers, and books." In order to raise additional revenue, the state legislature eliminated that broad exemption and substituted a narrower exemption. The new, narrower exemption excluded from the state sales tax only the sale of those "magazines, periodicals, newspapers, and books that are published or distributed by a recognized religious faith and that consist wholly of writings sacred to such a religious faith."
+
+(Line_0877): One magazine is a monthly publication devoted to history and politics. The magazine paid under protest the sales tax due on its sales according to the amended sales tax law. The magazine then filed suit against the state in an appropriate state court for a refund of the sales taxes paid. It contended that the state's elimination of the earlier, broader exemption and adoption of the new, narrower exemption restricted to sacred writings of recognized religious faiths violates the First and Fourteenth Amendments to the Constitution. In this case, the court will probably rule that
+(Line_0878): A. the magazine lacks standing to sue for a refund of sales taxes imposed by a generally applicable state law because Article III of the Constitution precludes taxpayers from bringing such suits.
+(Line_0879): B. the Eleventh Amendment bars the state court from exercising jurisdiction over this suit in the absence of a law of the state expressly waiving the state's immunity.
+(Line_0880): C. the new, narrower exemption from the state sales tax law violates the establishment clause of the First and Fourteenth Amendments by granting preferential state support to recognized religious faiths for the communication of their religious beliefs.
+(Line_0881): D. the new, narrower exemption from the state sales tax law violates the freedom of the press guaranteed by the First and Fourteenth Amendments because it imposes a prior restraint on nonreligious publications that are required to pay the tax.
+(Line_0882):  
+(Line_0883): A statute in a particular state provided state monetary grants to private dance, theater, and opera groups located in that state. The statute required recipients of such grants to use the granted monies for the acquisition, construction, and maintenance of appropriate facilities for the public performance of their performing arts. The last section of the statute conditioned the award of each such grant on the recipient's agreement to refrain from all kinds of political lobbying calculated to secure additional tax support for the performing arts. The strongest constitutional basis for an attack upon the validity of the last section of the statute would be based upon the
+(Line_0884): A. commerce clause.
+(Line_0885): B. obligation of contracts clause.
+(Line_0886): C. Fifth Amendment.
+(Line_0887): D. First and Fourteenth Amendments.
+(Line_0888):  
+(Line_0889):  X--Assume that Congress passed and the President signed the following statute:"The appellate jurisdiction of the United States Supreme Court shall not extend to any case involving the constitutionality of any state statute limiting the circumstances in which a woman may obtain an abortion, or involving the constitutionality of this statute." The strongest argument against the constitutionality of this statute is that
+
+(Line_0891): A. Congress may not exercise its authority over the appellate jurisdiction of the Supreme Court in a way that seriously interferes with the establishment of a supreme and uniform body of federal constitutional law.
+(Line_0892): B. Congress may only regulate the appellate jurisdiction of the Supreme Court over cases initially arising in federal courts.
+(Line_0893): C. the appellate jurisdiction of the Supreme Court may only be altered by a constitutional amendment.
+(Line_0894): D. the statute violates the equal protection clause of the Fourteenth Amendment.
+(Line_0895):  
+(Line_0896): The federal statute admitting a particular state to the Union granted the state certain public lands, and established some very ambiguous conditions on the subsequent disposition of these lands by the state. This federal statute also required the new state to write those exact same conditions into its state constitution. One hundred years later, a statute of the state dealing with the sale of these public lands was challenged in a state court lawsuit on the ground that it was inconsistent with the conditions contained in the federal statute, and with the provisions of the state constitution that exactly copy the conditions contained in the federal statute. The trial court decision in this case was appealed to the state supreme court. In its opinion, the state supreme court dealt at length with the ambiguous language of the federal statute and with cases interpreting identical language in federal statutes admitting other states to the union. The state supreme court opinion did not discuss the similar provisions of the state constitution, but it did hold that the challenged state statute is invalid because it is "inconsistent with the language of the federal statute and therefore is inconsistent with the identical provisions of our state constitution."
+(Line_0897): If the losing party in the state supreme court seeks review of the decision of that court in the United States Supreme Court, the United States Supreme Court should
+(Line_0898): A. accept the case for review and determine the validity and interpretation of the federal statute if it is an important and substantial question.
+(Line_0899): B. ask the state supreme court to indicate more clearly whether it relied on the state constitutional provision in rendering its decision.
+(Line_0900): C. decline to review the case on the ground that the decision of the state supreme court rests on an adequate and independent state ground.
+(Line_0901): D. decline to review the case because a decision by a state supreme court concerning the proper disposition of state public lands is not reviewable by the United States Supreme Court.
+(Line_0902):
+
+
+
+522: save the original prompt. Trying to rewrite it without the MEE, MPT portions and to process one question at a time.
+// Defining the tools for the LLM
+  const tools = [
+    {
+      type: "function",
+      function: {
+        name: "insert_mbe_question",
+        description:
+          "Insert MBE question into the database. The input parameter object has a question attribute that contains all the relevant case context preceding the final question 'stem'",
+        parameters: {
+          type: "object",
+          properties: {
+            Document_title: { type: "string" },
+            Doc_Lines_to_Delete: { type: "array", items: { type: "integer" } },
+            Document_Date: { type: "string" },
+            Publisher: { type: "string" },
+            question_type: { type: "string", const: "MBE" },
+            question: {
+              type: "string",
+              description:
+                "The entire question from the document to be inserted (may include multiple paragraphs in the root of the question)",
+            },
+            answers: {
+              type: "object",
+              properties: {
+                A: { type: "string" },
+                B: { type: "string" },
+                C: { type: "string" },
+                D: { type: "string" },
+              },
+            },
+            correct_answer: { type: "string" },
+            answer_origin: { type: "string" },
+            explanation: { type: "string" },
+            explanation_origin: { type: "string" },
+            difficulty_level: { type: "integer" },
+            law_category_tags: { type: "array", items: { type: "string" } },
+            topic: { type: "array", items: { type: "string" } },
+          },
+          required: [
+            "Document_title",
+            "Doc_Lines_to_Delete",
+            "Document_Date",
+            "Publisher",
+            "question_type",
+            "question",
+            "answers",
+            "correct_answer",
+            "answer_origin",
+            "explanation",
+            "explanation_origin",
+            "difficulty_level",
+            "law_category_tags",
+            "topic",
+          ],
+        },
+      },
+    },
+    {
+      type: "function",
+      function: {
+        name: "insert_mee_question",
+        description: "Insert MEE question into the database",
+        parameters: {
+          type: "object",
+          properties: {
+            "Document title": { type: "string" },
+            "Document Date": { type: "string" },
+            Publisher: { type: "string" },
+            question_type: { type: "string", const: "MEE" },
+            question: { type: "string" },
+            possible_answers: { type: "array", items: { type: "string" } },
+            answer: { type: "string" },
+            answer_origin: { type: "string" },
+            explanation: { type: "string" },
+            explanation_origin: { type: "string" },
+            difficulty_level: { type: "integer" },
+            law_category_tags: { type: "array", items: { type: "string" } },
+            topic: { type: "array", items: { type: "string" } },
+          },
+          required: ["question_type", "question", "answer"],
+        },
+      },
+    },
+    {
+      type: "function",
+      function: {
+        name: "insert_mpt_question",
+        description: "Insert MPT question into the database",
+        parameters: {
+          type: "object",
+          properties: {
+            "Document title": { type: "string" },
+            "Document Date": { type: "string" },
+            Publisher: { type: "string" },
+            question_type: { type: "string", const: "MPT" },
+            question: { type: "string" },
+            possible_answers: { type: "array", items: { type: "string" } },
+            answer: { type: "string" },
+            answer_origin: { type: "string" },
+            explanation: { type: "string" },
+            explanation_origin: { type: "string" },
+            difficulty_level: { type: "integer" },
+            law_category_tags: { type: "array", items: { type: "string" } },
+            topic: { type: "array", items: { type: "string" } },
+          },
+          required: ["question_type", "question", "answer"],
+        },
+      },
+    },
+    {
+      type: "function",
+      function: {
+        name: "end_document_processing",
+        description:
+          "Call when there are no more questions in the document to be added to the database",
+        parameters: {
+          type: "object",
+          properties: {
+            end_document_processing: { type: "boolean" },
+          },
+          required: ["end_document_processing"],
+        },
+      },
+    },
+  ];
+
+  // Construct the prompt using template literals
+  const promptContent = `You are a coveted AI legal expert who is a bar exam master and gets a perfect score on every exam question. You have been designed to assist in the organization and management of bar exam study materials. Your current task is to format, validate, and load various types of legal questions into a structured database.
+  
+  You have access to four tools. Three are for adding questions to the database: insert_mbe_question, insert_mee_question, and insert_mpt_question. Ensure that you record the lines that you copy from and send them as a parameter to the function via Doc_Lines_to_Delete so that you do not repeat content. The last tool, end_document_processing, is for ending processing of a document once all questions are gone. Ensure that you follow the operational guidelines exactly.
+  
+  Operational Guidelines:
+  
+  1. Record your data exactly as it appears in the source document.
+  2. Record and list EACH AND EVERY line number of the lines [lines noted in the format: '(Line_####):'] that you copied your content from on the source document to send as Doc_Lines_to_Delete so that you do not repeat content.
+  3. Format your response perfectly to fit the structure of the functions that you want to call.
+  4. Respond only in JSON and ensure that it is well formatted and valid. No other prose.
+  5. Ensure you only make a single tool call for each question. You can do multiple questions in one response via multiple tool calls if it doesn't decrease quality.
+  6. Question type can be 'MBE', 'MEE', or 'MPT'. All multiple choice questions are type MBE. Only do MBE questions for now!
+  7. If there is no clear data on the document date or publisher, insert the value 'NA'.
+  8. If there is an answer for the question in the document ensure that you use it! If there is no answer in the document, ensure that the one you create is perfect and accurate.
+  9. Answer origin can be 'Generated' or 'Document'.
+  10. If there is an explanation for the answer in the document ensure that you use it! If there is no explanation in the document, ensure that the one you create is clear, concise, and accurate. Don't just state why the correct answer is correct. Go through the thought process, canceling out the other options logically with reasoning why, and conclude your explanation by revealing the correct answer only after the full thought process is complete. If there is an explanation in the document already but does not fit your ideal structure of including the logical thought process, then use it as context to craft your own.
+  11. Explanation origin can be 'Generated' or 'Document'.
+  12. Difficulty score is out of 100 and is in the context of the average bar exam question being a 50.
+  13: When there are no more questions in the document, call the end_document_processing tool with the boolean true. If there are more questions in the document that you were not able to get this time DO NOT call end_document_processing so that you get sent the document again for another round of processing.
+  14: Law Categories and topics:[{"category":"CivilProcedure","topics":[{"topic": "Jurisdiction and venue","subtopics":["Federal subject-matter jurisdiction (federal question, diversity, supplemental, and removal)","Personal jurisdiction","Service f process and notice","Venue, forum non conveniens, and transfer"]},{"topic": "Law applied by federal courts","subtopics": ["State law in federal court","Federal common law"]},{"topic": "Pretrial procedures","subtopics": ["Preliminary injunctions and temporary restraining orders","Pleadings and amended and supplemental pleadings","Rule 11",Joinder of parties and claims (including class actions)","Discovery (including e-discovery), disclosure, and sanctions","Adjudication without a trial","Pretrial conference and order"]},{"topic": "Jury trials","subtopics": ["Right to jury trial","Selection and composition of juries","Requests for and objections to jury instructions"]},{"topic": "Motions","subtopics": ["Pretrial motions, including motions addressed to face of pleadings, motions to dismiss, and summary judgment motions",Motions for judgments as a matter of law (directed verdicts and judgments notwithstanding the verdict)","Posttrial motions, including motions for relief from judgment and for new trial"]},{"topic": "Verdicts and judgments","subtopics": ["Defaults and dismissals","Jury verdicts—types and challenges","Judicial findings and conclusions","Effect; claim and issue reclusion"]},{"topic": "Appealability and review","subtopics": ["Availability of interlocutory review","Final judgment rule","Scope of review for judge and jury"]}]},{"category": "Constitutional Law","topics": [{"topic": "The nature of judicial review","subtopics": ["Organization and relationship of state and federal courts in a federal system","Jurisdiction","Judicial review in peration"]},{"topic": "The separation of powers","subtopics": ["The powers of Congress","The powers of the president","Federal interbranch relationships"]},{"topic": "The relation of nation and states in a federal system","subtopics": ["Intergovernmental immunities","Federalism-based limits on state authority"]},{"topic": "Individual rights","subtopics": ["State action","Due process","Equal protection","Takings","Other protections, including the privileges and immunities clauses, he contracts clause, unconstitutional conditions, bills of attainder, and ex post facto laws","First Amendment freedoms"]}]},{"category": "Contracts","topics": [{"topic": "Formation of contracts","subtopics": ["Mutual assent (including offer and acceptance, and unilateral, bilateral, and implied-in-fact contracts)","Indefiniteness and bsence of terms","Consideration (bargained-for exchange)","Obligations enforceable without a bargained-for exchange (including reliance and restitution)","Modification of contracts"]},{"topic": "Defenses to enforceability","subtopics": ["Incapacity to contract","Duress and undue influence","Mistake and misunderstanding","Fraud, misrepresentation, and ondisclosure","Illegality, unconscionability, and public policy","Statute of frauds"]},{"topic": "Contract content and meaning","subtopics": ["Parol evidence","Interpretation","Omitted and implied terms"]},{"topic": "Performance, breach, and discharge","subtopics": ["Conditions (express and constructive)","Excuse of conditions","Breach (including material and partial breach, and nticipatory repudiation)","Obligations of good faith and fair dealing","Express and implied warranties in sale-of-goods contracts","Other performance matters (including cure, identification, notice, and risk of loss)","Impossibility, impracticability, and frustration of purpose","Discharge of duties (including accord and satisfaction, substituted contract, novation, rescission, and release)"]},{"topic": "Remedies","subtopics": ["Expectation interest (including direct, incidental, and consequential damages)","Causation, certainty, and foreseeability",Liquidated damages and penalties, and limitation of remedies","Avoidable consequences and mitigation of damages","Rescission and reformation","Specific performance and injunction","Reliance and restitution interests","Remedial rights of breaching parties"]},{"topic": "Third-party rights","subtopics": ["Third-party beneficiaries","Assignment of rights and delegation of duties"]}]},{"category": "Criminal Law and Procedure","topics": [{"topic": "Homicide","subtopics": ["Intended killings","Unintended killings"]},{"topic": "Other crimes","subtopics": ["Theft and receiving stolen goods","Robbery","Burglary","Assault and battery","Rape; statutory rape","Kidnapping","Arson",Possession offenses"]},{"topic": "Inchoate crimes; parties","subtopics": ["Inchoate offenses","Parties to crime"]},{"topic": "General principles","subtopics": ["Acts and omissions","State of mind","Responsibility","Causation","Justification and excuse"]},{"topic": "Constitutional protection of accused persons","subtopics": ["Arrest, search and seizure","Confessions and privilege against self-incrimination","Lineups and other forms of dentification","Right to counsel","Fair trial and guilty pleas","Double jeopardy","Cruel and unusual punishment","Burdens of proof and persuasion","Appeal and error"]}]},{"category": "Evidence","topics": [{"topic": "Presentation of evidence","subtopics": ["Introduction of evidence","Presumptions","Mode and order","Impeachment, contradiction, and rehabilitation","Proceedings to hich evidence rules apply"]},{"topic": "Relevancy and reasons for excluding relevant evidence","subtopics": ["Probative value","Authentication and identification","Character and related concepts","Expert testimony","Real, emonstrative, and experimental evidence"]},{"topic": "Privileges and other policy exclusions","subtopics": ["Spousal immunity and marital communications","Attorney-client and work product","Physician/psychotherapist-patient","Other rivileges","Insurance coverage","Remedial measures","Compromise, payment of medical expenses, and plea negotiations","Past sexual conduct of a victim"]},{"topic": "Writings, recordings, and photographs","subtopics": ["Requirement of original","Summaries","Completeness rule"]},{"topic": "Hearsay and circumstances of its admissibility","subtopics": ["Definition of hearsay","Present sense impressions and excited utterances","Statements of mental, emotional, or physical ondition","Statements for purposes of medical diagnosis and treatment","Past recollection recorded","Business records","Public records and reports","Learned treatises","Former testimony; depositions","Statements against interest","Other exceptions to the hearsay rule","Right to confront witnesses"]}]},{"category": "Real Property","topics": [{"topic": "Ownership of real property","subtopics": ["Present estates and future interests","Cotenancy","Landlord-tenant law","Special problems"]},{"topic": "Rights in real property","subtopics": ["Restrictive covenants","Easements, profits, and licenses","Fixtures","Zoning (fundamentals other than regulatory taking)"]},{"topic": "Real estate contracts","subtopics": ["Real estate brokerage","Creation and construction","Marketability of title","Equitable conversion (including risk of loss)",Options and rights of first refusal","Fitness and suitability","Merger"]},{"topic": "Mortgages/security devices","subtopics": ["Types of security devices","Security relationships","Transfers","Discharge of the mortgage","Foreclosure"]},{"topic": "Titles","subtopics": ["Adverse possession","Transfer by deed","Transfer by operation of law and by will","Title assurance systems","Special problems including estoppel by deed and judgment and tax liens)"]}]},{"category": "Torts","topics": [{"topic": "Intentional torts","subtopics": ["Harms to the person, such as assault, battery, false imprisonment, and infliction of mental distress; and harms to property nterests, such as trespass to land and chattels, and conversion","Defenses to claims for physical harms"]},{"topic": "Negligence","subtopics": ["The duty question, including failure to act, unforeseeable plaintiffs, and obligations to control the conduct of third arties","The standard of care","Problems relating to proof of fault, including res ipsa loquitur","Problems relating to causation","Limitations on liability and special rules of liability","Liability for acts of others","Defenses"]},{"topic": "Strict liability and products liability","subtopics": ["Common law strict liability, including claims arising from abnormally dangerous activities, and defenses to such claims; laims against manufacturers and other defendants arising out of the manufacture and distribution of products, and defenses to such claims"]},{"topic": "Other torts","subtopics": ["Claims based on nuisance, and defenses","Claims based on defamation and invasion of privacy, defenses, and constitutional imitations","Claims based on misrepresentations, and defenses","Claims based on intentional interference with business relations, and defenses"]}]}]
+  
+  Current Document:
+  Title: ${documentTitle}
+  Content: ${documentContent}
+
+  Remember, prioritize high confidence and accuracy. If uncertain, consult the document context.
+
+  ## MAKE SURE TO INCLUDE ALL RELEVANT CONTEXT AND INFORMATION FROM THE DOCUMENT WHEN EXTRACTING EACH QUESTION. NOTE THAT THIS DATA MAY BE SEPARATED INTO MULTIPLE PARAGRAPHS BEFORE THE FINAL QUESTION (STEM) - INCLUDE IT IN THE QUESTION FIELD AS YOU ARE AN EXCELLENT, DISCERNING QUESTION EXTRACTOR.
+
+  ONLY TAKE QUESTIONS THAT COME DIRECTLY FROM THE DOCUMENT AND IF THERE ARE NO QUESTIONS LEFT, THEN USE THE TOOL CALL end_document_processing().
+
+  Remain calm and tackle one question at a time.
+  
+  Take a deep breath and think step by step to get the best answer.`;
+
+
+Questions:
+Additional preprocessing to remove non-question text from documents? Heuristics involving characters/whitespace only remaining will be a lot more effective.
+Give it memory/lines processed variable.
+Additional preprocessing to mark out five question chunks
+Convert question to primary key, fast (O(1)?) supabase check before write
+
+
+523:
+Solved duplicate/outdated documentContent - untangled looping
+incorporate exponential backoff
+
+524:
+This prompt worked really well: 
+  Given this document, your task is to extract any ONE question and its matching explanation at some point later in the document. Print out the question (which will likely span multiple paragraphs), the explanation, and a list of line numbers each in the format '(Line_####):' on which the question and explanation were found.
+
+
+525:
+a federal statute provides that the United States Supreme Court has authority; generated answer: Under Article III of the U.S. Constitution, the Supreme Court has original jurisdiction in very limited cases, such as those involving ambassadors or where a state is a party. In all other cases, the Supreme Court has appellate jurisdiction, which means it can review decisions of lower federal and state courts. Here, the petitioners are asking the Supreme Court to review a case that has not yet been decided by any lower court, which does not fall within the Court's original jurisdiction. Therefore, there is no lower court judgment for the Supreme Court to review, making it outside the scope of its appellate jurisdiction as well. As such, the best constitutional argument in support of the EPA's request to dismiss the petition is that the case is not within the Supreme Court's original jurisdiction and is not a proper subject for its appellate jurisdiction because it has not been decided by any lower court.
+
+
+528:
+(Sent 527) Here’s the table typed out (American Bar Association site says there’s 6 cats for the MBE but more for the other sections - not sure what the extras are or if some from MBE aren’t included)
+
+USER DATA TABLE
+- UID (integer)
+- Name (string)
+- Overall Score (average of test type scores weighted by impact on bar exam score)
+- MBE Score (average of MBE category scores weighted by amount on bar exam) (float)
+	⁃	MBE Constitutional Law, score (average of MBE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MBE Contracts score (average of MBE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MBE Criminal Law score (average of MBE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MBE Evidence score (average of MBE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MBE Real Property score (average of MBE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MBE Torts score (average of MBE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+- MEE Score (average of MEE category scores weighted by amount on bar exam) (float)
+	⁃	MEE cat 1 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 2 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 3 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 4 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 5 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 6 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 7 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 8 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 9 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 10 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 11 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MEE cat 12 score (average of MEE qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+- MPT Score
+	⁃	MPT cat 1 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 2 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 3 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 4 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 5 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 6 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 7 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 8 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 9 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 10 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 11 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+	⁃	MPT cat 12 score (average of MPT qs in that category weighted by difficulty and boost last 50 if there are more than 50) (integer)
+- Current session (obj)
+  - Question type focus = null (string)
+  - Question Category Focus = null (string)
+  - Current Session Notes = null (string)
+  - start time (time)
+  - session id (integer)
+- Tutor notes (string)
+- Practice history (List)
+  	- Question: {QuestionID, User_Score, Date, Time, SessionID}
+	- Question: {QuestionID, User_Score, Date, Time, SessionID}
+	- Question: {QuestionID, User_Score, Date, Time, SessionID}
+	- Question: {QuestionID, User_Score, Date, Time, SessionID}
+	- Question: {QuestionID, User_Score, Date, Time, SessionID}
+	- …

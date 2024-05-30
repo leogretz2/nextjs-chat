@@ -7,23 +7,24 @@ import { QuestionScreen } from '@/components/question-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useEffect, useState } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
-import { Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { Message } from '@/lib/chat/actions'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
+import { Question, AnswerChoices } from '@/lib/types';
+import { Session } from '@auth/core/types';
 import { supabase, fetchQuestions } from '../supabaseClient'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
   id?: string
-  session?: Session
+  session: Session | null
   missingKeys?: string[]
-  question?: string
-  choices?: string[]
+  questionText: string
+  answers?: AnswerChoices
 }
 
-export function Chat({ id, className, session, missingKeys, question, choices }: ChatProps) {
+export function Chat({ id, className, session, missingKeys, questionText, answers }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
@@ -52,10 +53,13 @@ export function Chat({ id, className, session, missingKeys, question, choices }:
   })
 
   useEffect(() => {
-    missingKeys.map(key => {
+    missingKeys?.map(key => {
       toast.error(`Missing ${key} environment variable!`)
     })
   }, [missingKeys])
+
+  // This works - outputted in browser console
+  // console.log('answersc', answers)
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor()
@@ -69,7 +73,7 @@ export function Chat({ id, className, session, missingKeys, question, choices }:
         className={cn('pb-[200px] pt-4 md:pt-10', className)}
         ref={messagesRef}
       >
-        <QuestionScreen question={question}/>
+        <QuestionScreen questionText={questionText}/>
         {messages.length ? (
           <ChatList messages={messages} isShared={false} session={session} />
         ) : ( null )
@@ -82,7 +86,7 @@ export function Chat({ id, className, session, missingKeys, question, choices }:
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
-        choices={choices}
+        answers={answers}
       />
     </div>
   )

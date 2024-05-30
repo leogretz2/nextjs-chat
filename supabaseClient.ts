@@ -14,14 +14,17 @@ export const dynamic = 'force-dynamic'
 export async function fetchQuestions(): Promise<Question[]> {
     console.log('fetcher')    
     const { data, error } = await supabase
-        .from('MBE_Questions')
-        .select('explanation');
+        .from('mbe_questions')
+        .select('*')
+        .order('id', { ascending: true })
+        .limit(1);
+        // .select('explanation');
 
     if (error) {
         console.error('Error fetching questions:', error);
-        return {};
+        return [];
     } else {
-        console.log('datar',data)
+        console.log('datar',data[0])
     }
 
     return data;

@@ -11,6 +11,8 @@ import { useAIState, useActions, useUIState } from 'ai/rsc'
 import type { AI } from '@/lib/chat/actions'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
+import { AnswerChoices } from '@/lib/types'
+import { convertPossibleAnswersToArray } from '@/lib/utils'
 
 export interface ChatPanelProps {
   id?: string
@@ -19,7 +21,7 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
-  choices?: string[]
+  answers?: AnswerChoices
 }
 
 export function ChatPanel({
@@ -29,67 +31,17 @@ export function ChatPanel({
   setInput,
   isAtBottom,
   scrollToBottom,
-  choices
+  answers
 }: ChatPanelProps) {
   const [aiState] = useAIState()
   const [messages, setMessages] = useUIState<typeof AI>()
   const { submitUserMessage } = useActions()
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
-  const letters = ['A','B','C','D']
 
-  // const exampleMessages = choices.map((choice, i) => ({
-  //   heading: `${letters[i]}. ${choice}`,
-  //   message: `${letters[i]}. ${choice}`,
-  // }))
-  const exampleMessages = [{heading:'',message:''}]
-  // const exampleMessages = [
-  //   {
-  //     heading: 'A. The law is justified as it promotes nationalism, which is a compelling state interest.',
-  //     message: 'A. The law is justified as it promotes nationalism, which is a compelling state interest.'
-  //   },
-  //   {
-  //     heading: 'B. The law is unconstitutional because it violates the students\' freedom of speech.',
-  //     message: 'B. The law is unconstitutional because it violates the students\' freedom of speech.',
-  //   },
-  //   {
-  //     heading: 'C. The law is unconstitutional because it violates the students\' freedom of religion.',
-  //     message: 'C. The law is unconstitutional because it violates the students\' freedom of religion.',
-  //   }
-  //   ,
-  //   {
-  //     heading: 'D. The law is justified because the education of minors is a matter of state concern, not federal.',
-  //     message: 'D. The law is justified because the education of minors is a matter of state concern, not federal.',
-  //   }
-// B. The law is unconstitutional because it violates the students' freedom of speech.
-
-// C. The law is unconstitutional because it violates the students' freedom of religion.
-
-// D. The law is justified because the education of minors is a matter of state concern, not federal.
-
-// E. The law is constitutional because saluting the flag is a traditional act of patriotism, not a religious or political statement.
-
-
-    // {
-    //   heading: 'What are the',
-    //   subheading: 'trending memecoins today?',
-    //   message: `What are the trending memecoins today?`
-    // },
-    // {
-    //   heading: 'What is the price of',
-    //   subheading: '$DOGE right now?',
-    //   message: 'What is the price of $DOGE right now?'
-    // },
-    // {
-    //   heading: 'I would like to buy',
-    //   subheading: '42 $DOGE',
-    //   message: `I would like to buy 42 $DOGE`
-    // },
-    // {
-    //   heading: 'What are some',
-    //   subheading: `recent events about $DOGE?`,
-    //   message: `What are some recent events about $DOGE?`
-    // }
-  // ]
+  // This works - comes in on browser too (since imported into chat.tsx which has 'use client')
+  // console.log('cpd',answers)
+  
+  const possibleAnswers = convertPossibleAnswersToArray(answers)
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
@@ -101,7 +53,7 @@ export function ChatPanel({
       <div className="mx-auto sm:max-w-2xl sm:px-4">
         <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
-            exampleMessages.map((example, index) => (
+            possibleAnswers.map((example, index) => (
               <div
                 key={example.heading}
                 className={`cursor-pointer rounded-lg border bg-white p-4 hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 ${

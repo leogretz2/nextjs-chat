@@ -3,9 +3,9 @@ import { auth } from '@/auth';
 import { getMissingKeys } from '../actions';
 
 export default async function loader() {
-  console.log('loader');
   const fetchQuestions = (await import('../../supabaseClient')).fetchQuestions;
   const questions = await fetchQuestions();
+  console.log('loader');
   const session = await auth();
   const missingKeys = await getMissingKeys();
   return {

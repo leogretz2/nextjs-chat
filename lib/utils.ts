@@ -1,9 +1,17 @@
 import { clsx, type ClassValue } from 'clsx'
 import { customAlphabet } from 'nanoid'
 import { twMerge } from 'tailwind-merge'
+import { AnswerChoices, AnswerChoice } from './types'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function convertPossibleAnswersToArray(possibleAnswers?: AnswerChoices): AnswerChoice[]{
+  return possibleAnswers ? Object.entries(possibleAnswers).map(([key, value]) => ({
+    heading: `${key}. ${value}`,
+    message: `${key}. ${value}`
+  })): [];
 }
 
 export const nanoid = customAlphabet(
