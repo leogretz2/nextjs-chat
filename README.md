@@ -1,3 +1,24 @@
+# How to actually run it
+You run it locally by cloning into VS Code, go into Terminal and use command: `pnpm run dev` then it's running on localhost:3000 backend and frontend. Actually, in writing this out, I clicked Ctrl (Command on Mac) + Enter and it ran in replit and rendered in a Web thing in replit. Just need to figure out how to get the code accessing the secrets if it's not too different than the code now.
+
+I'm going to keep this stuff below in case it's a good reference at some point\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
 <a href="https://chat.vercel.ai/">
   <img alt="Next.js 14 and App Router-ready AI chatbot." src="https://chat.vercel.ai/opengraph-image.png">
   <h1 align="center">Next.js AI Chatbot</h1>
