@@ -22,9 +22,12 @@ const exampleMessages = [
 
 export function QuestionScreen({questionText}: {questionText: string}) {
   return (
-    <div className="mx-auto max-w-2xl px-4">
+    <div className="flex flex-col justify-center items-center w-full px-4 mb-4 mt-8">
+    {/* <div className="flex flex-col justify-center items-center h-full w-full px-4"> */}
+    {/* <div className="mx-auto max-w-2xl px-4"> */}
     {/* // <div className="mx-auto px-4"> */}
-      <div className="flex flex-col gap-2 rounded-lg border bg-background p-8">
+      <div className="flex flex-col gap-2 rounded-lg border bg-background p-8 w-full max-w-2x1">
+      {/* <div className="flex flex-col gap-2 rounded-lg border bg-background p-8"> */}
         <h1 className="text-lg font-semibold">
           MBE Multiple Choice Question
         </h1>

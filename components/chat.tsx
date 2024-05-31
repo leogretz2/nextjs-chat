@@ -66,14 +66,20 @@ export function Chat({ id, className, session, missingKeys, questionText, answer
 
   return (
     <div
-      className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
+      className="flex flex-col h-screen w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
+      // className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
+      <div className={cn('flex-shrink-0 pt-4 md:pt-10', className)}>
+        <QuestionScreen questionText={questionText} />
+      </div>
       <div
-        className={cn('pb-[200px] pt-4 md:pt-10', className)}
+        className={cn('flex-grow overflow-auto pb-[200px] pt-4 md:pt-10', className)}
+        // className={cn('pb-[200px] pt-4 md:pt-10', className)}
+        // className={cn('flex-grow pb-[100px] pt-4 md:pt-10', className)}
         ref={messagesRef}
       >
-        <QuestionScreen questionText={questionText}/>
+        {/* <QuestionScreen questionText={questionText}/> */}
         {messages.length ? (
           <ChatList messages={messages} isShared={false} session={session} />
         ) : ( null )

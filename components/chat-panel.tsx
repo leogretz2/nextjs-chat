@@ -50,7 +50,8 @@ export function ChatPanel({
         scrollToBottom={scrollToBottom}
       />
 
-      <div className="mx-auto sm:max-w-2xl sm:px-4">
+      <div className="mx-auto sm:px-4">
+      {/* <div className="mx-auto sm:max-w-2xl sm:px-4"> */}
         <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
             possibleAnswers.map((example, index) => (
@@ -60,7 +61,7 @@ export function ChatPanel({
                   index > 1 && 'hidden md:block'
                 }`}
                 onClick={async () => {
-                  setMessages(currentMessages => [
+                  setMessages((currentMessages: any) => [
                     ...currentMessages,
                     {
                       id: nanoid(),
@@ -72,7 +73,7 @@ export function ChatPanel({
                     example.message
                   )
 
-                  setMessages(currentMessages => [
+                  setMessages((currentMessages: any) => [
                     ...currentMessages,
                     responseMessage
                   ])

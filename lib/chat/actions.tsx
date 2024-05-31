@@ -35,93 +35,100 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat } from '@/lib/types'
 import { auth } from '@/auth'
+import { fetchQuestions } from '@/supabaseClient'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
 })
 
-async function confirmPurchase(symbol: string, price: number, amount: number) {
-  'use server'
+// async function confirmPurchase(symbol: string, price: number, amount: number) {
+//   'use server'
 
-  const aiState = getMutableAIState<typeof AI>()
+//   const aiState = getMutableAIState<typeof AI>()
 
-  const purchasing = createStreamableUI(
-    <div className="inline-flex items-start gap-1 md:items-center">
-      {spinner}
-      <p className="mb-2">
-        Purchasing {amount} ${symbol}...
-      </p>
-    </div>
-  )
+//   const purchasing = createStreamableUI(
+//     <div className="inline-flex items-start gap-1 md:items-center">
+//       {spinner}
+//       <p className="mb-2">
+//         Purchasing {amount} ${symbol}...
+//       </p>
+//     </div>
+//   )
 
-  const systemMessage = createStreamableUI(null)
+//   const systemMessage = createStreamableUI(null)
 
-  runAsyncFnWithoutBlocking(async () => {
-    await sleep(1000)
+//   runAsyncFnWithoutBlocking(async () => {
+//     await sleep(1000)
 
-    purchasing.update(
-      <div className="inline-flex items-start gap-1 md:items-center">
-        {spinner}
-        <p className="mb-2">
-          Purchasing {amount} ${symbol}... working on it...
-        </p>
-      </div>
-    )
+//     purchasing.update(
+//       <div className="inline-flex items-start gap-1 md:items-center">
+//         {spinner}
+//         <p className="mb-2">
+//           Purchasing {amount} ${symbol}... working on it...
+//         </p>
+//       </div>
+//     )
 
-    await sleep(1000)
+//     await sleep(1000)
 
-    purchasing.done(
-      <div>
-        <p className="mb-2">
-          You have successfully purchased {amount} ${symbol}. Total cost:{' '}
-          {formatNumber(amount * price)}
-        </p>
-      </div>
-    )
+//     purchasing.done(
+//       <div>
+//         <p className="mb-2">
+//           You have successfully purchased {amount} ${symbol}. Total cost:{' '}
+//           {formatNumber(amount * price)}
+//         </p>
+//       </div>
+//     )
 
-    systemMessage.done(
-      <SystemMessage>
-        You have purchased {amount} shares of {symbol} at ${price}. Total cost ={' '}
-        {formatNumber(amount * price)}.
-      </SystemMessage>
-    )
+//     systemMessage.done(
+//       <SystemMessage>
+//         You have purchased {amount} shares of {symbol} at ${price}. Total cost ={' '}
+//         {formatNumber(amount * price)}.
+//       </SystemMessage>
+//     )
 
-    aiState.done({
-      ...aiState.get(),
-      messages: [
-        ...aiState.get().messages.slice(0, -1),
-        {
-          id: nanoid(),
-          role: 'function',
-          name: 'showStockPurchase',
-          content: JSON.stringify({
-            symbol,
-            price,
-            defaultAmount: amount,
-            status: 'completed'
-          })
-        },
-        {
-          id: nanoid(),
-          role: 'system',
-          content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
-            amount * price
-          }]`
-        }
-      ]
-    })
-  })
+//     aiState.done({
+//       ...aiState.get(),
+//       messages: [
+//         ...aiState.get().messages.slice(0, -1),
+//         {
+//           id: nanoid(),
+//           role: 'function',
+//           name: 'showStockPurchase',
+//           content: JSON.stringify({
+//             symbol,
+//             price,
+//             defaultAmount: amount,
+//             status: 'completed'
+//           })
+//         },
+//         {
+//           id: nanoid(),
+//           role: 'system',
+//           content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
+//             amount * price
+//           }]`
+//         }
+//       ]
+//     })
+//   })
 
-  return {
-    purchasingUI: purchasing.value,
-    newMessage: {
-      id: nanoid(),
-      display: systemMessage.value
-    }
-  }
+//   return {
+//     purchasingUI: purchasing.value,
+//     newMessage: {
+//       id: nanoid(),
+//       display: systemMessage.value
+//     }
+//   }
+// }
+
+export async function nextQuestion(){
+  // 'use server'
+  const questions = await fetchQuestions()
+  console.log
 }
 
-async function submitUserMessage(content: string) {
+async function submitUserMessage(content: string): Promise<{ id: string, display: any}>{
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
@@ -419,7 +426,7 @@ export type UIState = {
 export const AI = createAI<AIState, UIState>({
   actions: {
     submitUserMessage,
-    confirmPurchase
+    nextQuestion,
   },
   initialUIState: [],
   initialAIState: { chatId: nanoid(), messages: [] },
@@ -439,7 +446,7 @@ export const AI = createAI<AIState, UIState>({
       return
     }
   },
-  unstable_onSetAIState: async ({ state, done }) => {
+  unstable_onSetAIState: async ({ state, done }: {state: any, done: boolean}) => {
     'use server'
 
     const session = await auth()

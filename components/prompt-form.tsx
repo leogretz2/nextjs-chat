@@ -17,6 +17,7 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
+import { nextQuestion } from '@/lib/chat/actions'
 
 export function PromptForm({
   input,
@@ -98,6 +99,11 @@ export function PromptForm({
           value={input}
           onChange={e => setInput(e.target.value)}
         />
+        {/* <div>
+          <Button onClick={nextQuestion}>
+            NextQuestion
+          </Button>
+        </div> */}
         <div className="absolute right-0 top-[13px] sm:right-4">
           <Tooltip>
             <TooltipTrigger asChild>
