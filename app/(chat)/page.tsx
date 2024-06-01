@@ -6,8 +6,7 @@ import { Session } from '@/lib/types'
 import { getMissingKeys } from '../actions'
 import { supabase, fetchQuestions } from '../../supabaseClient'
 import loader from './page.server'
-import { insertUniqueQuestion } from '../actions';
-import { insertQuestion } from '../actions';
+import { insertQuestion, insertUniqueQuestion } from '../actions';
 import LogButton from '../../components/logButton'
 
 export const metadata = {
@@ -37,6 +36,14 @@ export default async function IndexPage(/*{session}*/) {
   const questionText = firstQuestion.question
   const answers = firstQuestion.answers
   
+  const handleFetchQuestions = async () => {
+    const newQuestions = await fetchQuestions();
+    if (newQuestions.length > 0) {
+      const questionText = newQuestions[0].question;
+      await submitUserMessage(questionText); // Assuming you want to send the question text
+    }
+  }; 
+
   // This works - question coming in from loader
   console.log('questionTextp', questions, questionText)
 

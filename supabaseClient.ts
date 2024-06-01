@@ -21,7 +21,6 @@ export async function fetchQuestions(): Promise<Question[]> {
         .select('*')
         .order('id', { ascending: true })
         .limit(1)
-    // .select('explanation');
 
     if (error) {
         console.error('Error fetching questions:', error)
