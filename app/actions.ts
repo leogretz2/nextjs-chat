@@ -6,8 +6,8 @@ import { kv } from '@vercel/kv'
 
 import { auth } from '@/auth'
 import { type Chat } from '@/lib/types'
-import { supabase } from '../supabaseClient';
-import { Question } from '@/lib/types';
+import { supabase } from '../supabaseClient'
+import { Question } from '@/lib/types'
 
 export async function insertUniqueQuestion(newQuestion: Question) {
   try {
@@ -16,37 +16,43 @@ export async function insertUniqueQuestion(newQuestion: Question) {
       .from('mbe_questions')
       .select('content')
       .eq('content', newQuestion.content)
-      .single();
+      .single()
 
-    if (fetchError && fetchError.message !== "No rows found") {
-      return { error: fetchError };
+    if (fetchError && fetchError.message !== 'No rows found') {
+      return { error: fetchError }
     }
-    console.error('Error fetching questions action:', fetchError);
+    console.error('Error fetching questions action:', fetchError)
 
     // If the question already exists, return some message or handle as needed
     if (existingQuestions) {
-      return { message: 'Question with the same content already exists.', existingQuestion: existingQuestions };
+      return {
+        message: 'Question with the same content already exists.',
+        existingQuestion: existingQuestions
+      }
     }
 
     // If the question does not exist, insert it
     const { data: insertedQuestion, error: insertError } = await supabase
       .from('MBE_Questions')
-      .insert([newQuestion]);
+      .insert([newQuestion])
 
     if (insertError) {
-      console.error('Error inserting question:', insertError);
-      return { error: insertError };
+      console.error('Error inserting question:', insertError)
+      return { error: insertError }
     }
 
-    return { message: 'Question inserted successfully', insertedQuestion: insertedQuestion[0] };
+    return {
+      message: 'Question inserted successfully',
+      insertedQuestion: insertedQuestion[0]
+    }
   } catch (error) {
-    console.error('Unexpected error:', error);
-    return { error };
+    console.error('Unexpected error:', error)
+    return { error }
   }
 }
 
 // Add RLS back, and need to add auth
-export async function insertQuestion(){
+export async function insertQuestion() {
   console.log('start insert')
   // const newQuestion: Question = {
   //   content: 'What is the meaning of life?',
@@ -206,6 +212,9 @@ export async function refreshHistory(path: string) {
 }
 
 export async function getMissingKeys() {
+  // console.log('processenv', process.env['OPENAI_API_KEY'])
+  console.log('processenver', process.env)
+  console.log('processenvee', process.env['OPENAI_API_KEY'])
   const keysRequired = ['OPENAI_API_KEY']
   return keysRequired
     .map(key => (process.env[key] ? '' : key))

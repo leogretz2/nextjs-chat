@@ -37,6 +37,8 @@ import { Chat } from '@/lib/types'
 import { auth } from '@/auth'
 import { fetchQuestions } from '@/supabaseClient'
 
+console.log('key: ', process.env.OPENAI_API_KEY)
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
 })
