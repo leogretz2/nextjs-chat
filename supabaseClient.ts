@@ -14,13 +14,39 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export const dynamic = 'force-dynamic'
 
+// Function to convert snake_case to camelCase
+function snakeToCamel(snakeCaseString: string) {
+    return snakeCaseString.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+}
+
+// Function to map data to the Question interface
+function mapToQuestion(data: Record<string, any>): Question {
+    return {
+        questionId: data.question_id,
+        documentTitle: data.document_title,
+        documentDate: data.document_date,
+        publisher: data.publisher,
+        questionType: data.question_type,
+        questionText: data.question_text,
+        possibleAnswers: data.possible_answers,
+        correctAnswer: data.correct_answer,
+        answerOrigin: data.answer_origin,
+        explanation: data.explanation,
+        explanationOrigin: data.explanation_origin,
+        difficultyLevel: data.difficulty_level,
+        lawCategoryTags: data.law_category_tags,
+        topic: data.topic,
+        createdAt: data.created_at,
+    }
+}
+
 export async function fetchQuestions(): Promise<Question[]> {
     console.log('fetcher')
     const { data, error } = await supabase
-        .from('mbe_questions')
+        .from('questions')
         .select('*')
-        .order('id', { ascending: true })
-        .limit(1)
+        .order('question_id', { ascending: true })
+        .limit(1);
 
     if (error) {
         console.error('Error fetching questions:', error)
@@ -29,5 +55,7 @@ export async function fetchQuestions(): Promise<Question[]> {
         console.log('datar', data[0])
     }
 
-    return data
+    const questions = data.map(mapToQuestion)
+   
+    return questions
 }

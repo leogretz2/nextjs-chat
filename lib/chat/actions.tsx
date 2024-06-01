@@ -128,6 +128,7 @@ const openai = new OpenAI({
 export async function nextQuestion() {
   // 'use server'
   const questions = await fetchQuestions()
+  const { questionText, possibleAnswers, correctAnswer, explanation } = questions[0]
 
   if (!questions) {
     console.error('No question fetched')
@@ -135,7 +136,13 @@ export async function nextQuestion() {
   }
 
   console.log('qwu', questions)
-  return questions
+  const question = questions[0]
+  return {
+    questionText,
+    possibleAnswers,
+    answerKey: question.correctAnswer,
+    explanation: question.explanation,
+  };
 }
 
 async function submitUserMessage(
@@ -237,7 +244,7 @@ async function submitUserMessage(
           const questions = await nextQuestion()
           console.log('in function call', questions)
           return (
-            <BotMessage content={`Next Question: ${questions[0].question}`} />
+            <BotMessage content={`Next Question: ${questions[0].questionText}`} />
           )
         }
       }

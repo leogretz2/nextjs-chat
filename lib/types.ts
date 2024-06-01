@@ -1,13 +1,13 @@
 import { Message } from 'ai'
 
 export interface Question {
-  id?: string;
+  questionId?: string;
   documentTitle: string;
   documentDate: string;
   publisher: string;
-  question_type: 'MBE' | 'MEE' | 'MPT';
-  question: string; // Change this to questionText
-  answers?: AnswerChoices; // Change this to possibleAnswers
+  questionType: 'MBE' | 'MEE' | 'MPT';
+  questionText: string; // Change this to questionText
+  possibleAnswers: AnswerChoices; // Change this to possibleAnswers
   correctAnswer: string;
   answerOrigin: string;
   explanation?: string;

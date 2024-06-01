@@ -33,13 +33,13 @@ export default async function IndexPage(/*{session}*/) {
   // const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
   const firstQuestion = questions[0]
-  const questionText = firstQuestion.question
-  const answers = firstQuestion.answers
+  const questionText = firstQuestion.questionText
+  const answers = firstQuestion.possibleAnswers
   
   const handleFetchQuestions = async () => {
     const newQuestions = await fetchQuestions();
     if (newQuestions.length > 0) {
-      const questionText = newQuestions[0].question;
+      const questionText = newQuestions[0].questionText;
       await submitUserMessage(questionText); // Assuming you want to send the question text
     }
   }; 
