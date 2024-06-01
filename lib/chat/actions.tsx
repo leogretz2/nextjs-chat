@@ -1,3 +1,5 @@
+'use server'
+
 import 'server-only'
 
 import {
@@ -36,6 +38,7 @@ import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat } from '@/lib/types'
 import { auth } from '@/auth'
 import { fetchQuestions } from '@/supabaseClient'
+import IndexPage from 'app/(chat)/page'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
@@ -125,13 +128,22 @@ const openai = new OpenAI({
 export async function nextQuestion(){
   // 'use server'
   const questions = await fetchQuestions()
-  console.log
+
+  if (!questions) {
+    console.error('No question fetched');
+    return 'No question available.';
+  }
+
+  console.log('qwu',questions)
+  return questions
 }
 
 async function submitUserMessage(content: string): Promise<{ id: string, display: any}>{
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
+
+  console.log('user submitted', content.slice(0,8))
 
   aiState.update({
     ...aiState.get(),
@@ -158,6 +170,8 @@ async function submitUserMessage(content: string): Promise<{ id: string, display
         content:
             `You are an AI bar exam specialist. You have perfect knowledge about the law and the bar exam. You grade users' answers to sample bar exam questions and help prepare them to pass the test.
 
+            You have access to two tools. The one that is important now is nextQuestion. This is to be called whenever the user has gotten the correct answer and has no more questions so that you can move onto the next question.
+
           Current Question:
           The state of Freedonia passes a law requiring that all school children salute the national flag each morning. A group of students who are members of a religious sect that believes such salutes are against their religious principles refuse to comply. The students are subsequently suspended from school. The students' parents sue the state, arguing that the law violates the First Amendment. Which of the following arguments is most likely to determine the outcome of this case?
           Which of the following arguments is most likely to determine the outcome of this case?
@@ -175,6 +189,8 @@ async function submitUserMessage(content: string): Promise<{ id: string, display
             Option B might seem plausible as it involves freedom of speech (also considered in the Barnette case), which includes symbolic speech (like saluting the flag). However, the primary issue here is more directly related to religious freedom, making option C more relevant.
             Option A and Option E are incorrect because the promotion of nationalism or traditional acts of patriotism cannot override fundamental First Amendment rights such as freedom of religion and speech.
             Option D is incorrect because, while education is primarily a state concern, federal constitutional rights like those in the First Amendment apply to state actions under the incorporation doctrine of the Fourteenth Amendment.
+
+            Call the nextQuestion tool whenever the user gets the correct answer.
           `
       },
       ...aiState.get().messages.map((message: any) => ({
@@ -202,12 +218,80 @@ async function submitUserMessage(content: string): Promise<{ id: string, display
             }
           ]
         })
+
+        console.log('done: ', content)
       } else {
         textStream.update(delta)
       }
 
       return textNode
     },
+    // New functions based off of old
+    functions: {
+      nextQuestion: {
+        description: 'Queries the database for the next question to display to the user once they have answered the current one correctly and have no more questions.',
+        parameters: z.object({}),
+        render: async () => {
+          const questions = await nextQuestion();
+          console.log('in function call', questions)
+          return <BotMessage content={`Next Question: ${questions[0].question}`} />;
+        },
+      }
+    }
+
+    //   function: {
+    //     name: "insert_mbe_question",
+    //     description:
+    //       "Insert MBE question into the database. The input parameter object has a question attribute that contains all the relevant case context preceding the final question 'stem'",
+    //     parameters: {
+    //       type: "object",
+    //       properties: {
+    //         Document_title: { type: "string" },
+    //         Doc_Lines_to_Delete: { type: "array", items: { type: "integer" } },
+    //         Document_Date: { type: "string" },
+    //         Publisher: { type: "string" },
+    //         question_type: { type: "string", const: "MBE" },
+    //         question: {
+    //           type: "string",
+    //           description:
+    //             "The entire question from the document to be inserted (may include multiple paragraphs in the root of the question)",
+    //         },
+    //         answers: {
+    //           type: "object",
+    //           properties: {
+    //             A: { type: "string" },
+    //             B: { type: "string" },
+    //             C: { type: "string" },
+    //             D: { type: "string" },
+    //           },
+    //         },
+    //         correct_answer: { type: "string" },
+    //         answer_origin: { type: "string" },
+    //         explanation: { type: "string" },
+    //         explanation_origin: { type: "string" },
+    //         difficulty_level: { type: "integer" },
+    //         law_category_tags: { type: "array", items: { type: "string" } },
+    //         topic: { type: "array", items: { type: "string" } },
+    //       },
+    //       required: [
+    //         "Document_title",
+    //         "Doc_Lines_to_Delete",
+    //         "Document_Date",
+    //         "Publisher",
+    //         "question_type",
+    //         "question",
+    //         "answers",
+    //         "correct_answer",
+    //         "answer_origin",
+    //         "explanation",
+    //         "explanation_origin",
+    //         "difficulty_level",
+    //         "law_category_tags",
+    //         "topic",
+    //       ],
+    //     },
+    //   }
+    // }
     // functions: {
     //   listStocks: {
     //     description: 'List three imaginary stocks that are trending.',

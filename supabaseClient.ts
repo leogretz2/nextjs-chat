@@ -12,12 +12,12 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export const dynamic = 'force-dynamic'
 
 export async function fetchQuestions(): Promise<Question[]> {
-    console.log('fetcher')    
+    console.log('fetcher')
     const { data, error } = await supabase
         .from('mbe_questions')
         .select('*')
         .order('id', { ascending: true })
-        .limit(1);
+        .limit(1)
         // .select('explanation');
 
     if (error) {

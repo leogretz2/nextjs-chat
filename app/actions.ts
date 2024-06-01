@@ -15,7 +15,7 @@ export async function insertUniqueQuestion(newQuestion: Question) {
     const { data: existingQuestions, error: fetchError } = await supabase
       .from('mbe_questions')
       .select('content')
-      .eq('content', newQuestion.content)
+      .eq('content', newQuestion)
       .single();
 
     if (fetchError && fetchError.message !== "No rows found") {
@@ -38,7 +38,7 @@ export async function insertUniqueQuestion(newQuestion: Question) {
       return { error: insertError };
     }
 
-    return { message: 'Question inserted successfully', insertedQuestion: insertedQuestion[0] };
+    return { message: 'Question inserted successfully', insertedQuestion: insertedQuestion?[0] : '' };
   } catch (error) {
     console.error('Unexpected error:', error);
     return { error };
@@ -206,6 +206,7 @@ export async function refreshHistory(path: string) {
 }
 
 export async function getMissingKeys() {
+  console.log('processenv',process.env)
   const keysRequired = ['OPENAI_API_KEY']
   return keysRequired
     .map(key => (process.env[key] ? '' : key))
