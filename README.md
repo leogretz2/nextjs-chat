@@ -1,5 +1,5 @@
 # How to actually run it
-You run it locally by cloning into VS Code, go into Terminal and use command: `pnpm run dev` then it's running on localhost:3000 backend and frontend. Actually, in writing this out, I clicked Ctrl (Command on Mac) + Enter and it ran in replit and rendered in a Web thing in replit. Just need to figure out how to get the code accessing the secrets if it's not too different than the code now.
+You run it locally by cloning into VS Code, go into Terminal and use command: `pnpm run dev` then it's running on localhost:3000 backend and frontend. Actually, in writing this out, I clicked Ctrl (Command on Mac) + Enter and it ran in replit and rendered in a Web thing as another replit tab (also works with pnpm run dev in shell).
 
 I'm going to keep this stuff below in case it's a good reference at some point\
 \

@@ -44,91 +44,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
 })
 
-// async function confirmPurchase(symbol: string, price: number, amount: number) {
-//   'use server'
-
-//   const aiState = getMutableAIState<typeof AI>()
-
-//   const purchasing = createStreamableUI(
-//     <div className="inline-flex items-start gap-1 md:items-center">
-//       {spinner}
-//       <p className="mb-2">
-//         Purchasing {amount} ${symbol}...
-//       </p>
-//     </div>
-//   )
-
-//   const systemMessage = createStreamableUI(null)
-
-//   runAsyncFnWithoutBlocking(async () => {
-//     await sleep(1000)
-
-//     purchasing.update(
-//       <div className="inline-flex items-start gap-1 md:items-center">
-//         {spinner}
-//         <p className="mb-2">
-//           Purchasing {amount} ${symbol}... working on it...
-//         </p>
-//       </div>
-//     )
-
-//     await sleep(1000)
-
-//     purchasing.done(
-//       <div>
-//         <p className="mb-2">
-//           You have successfully purchased {amount} ${symbol}. Total cost:{' '}
-//           {formatNumber(amount * price)}
-//         </p>
-//       </div>
-//     )
-
-//     systemMessage.done(
-//       <SystemMessage>
-//         You have purchased {amount} shares of {symbol} at ${price}. Total cost ={' '}
-//         {formatNumber(amount * price)}.
-//       </SystemMessage>
-//     )
-
-//     aiState.done({
-//       ...aiState.get(),
-//       messages: [
-//         ...aiState.get().messages.slice(0, -1),
-//         {
-//           id: nanoid(),
-//           role: 'function',
-//           name: 'showStockPurchase',
-//           content: JSON.stringify({
-//             symbol,
-//             price,
-//             defaultAmount: amount,
-//             status: 'completed'
-//           })
-//         },
-//         {
-//           id: nanoid(),
-//           role: 'system',
-//           content: `[User has purchased ${amount} shares of ${symbol} at ${price}. Total cost = ${
-//             amount * price
-//           }]`
-//         }
-//       ]
-//     })
-//   })
-
-//   return {
-//     purchasingUI: purchasing.value,
-//     newMessage: {
-//       id: nanoid(),
-//       display: systemMessage.value
-//     }
-//   }
-// }
-
 export async function nextQuestion() {
   // 'use server'
   const questions = await fetchQuestions()
-  const { questionText, possibleAnswers, correctAnswer, explanation } = questions[0]
+  const { questionText, possibleAnswers, correctAnswer, explanation } =
+    questions[0]
 
   if (!questions) {
     console.error('No question fetched')
@@ -140,9 +60,9 @@ export async function nextQuestion() {
   return {
     questionText,
     possibleAnswers,
-    answerKey: question.correctAnswer,
-    explanation: question.explanation,
-  };
+    correctAnswer,
+    explanation
+  }
 }
 
 async function submitUserMessage(
@@ -166,10 +86,12 @@ async function submitUserMessage(
     ]
   })
 
-  let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
+  // Test remove
+  // let textStream: undefined | ReturnType<typeof createStreamableValue<string>>;
+  let textStream: undefined | ReturnType<typeof createStreamableValue>
   let textNode: undefined | React.ReactNode
 
-  const ui = render({
+  const ui: React.ReactNode = render({
     model: 'gpt-3.5-turbo',
     provider: openai,
     initial: <SpinnerMessage />,
@@ -241,258 +163,54 @@ async function submitUserMessage(
           'Queries the database for the next question to display to the user once they have answered the current one correctly and have no more questions.',
         parameters: z.object({}),
         render: async () => {
-          const questions = await nextQuestion()
-          console.log('in function call', questions)
-          return (
-            <BotMessage content={`Next Question: ${questions[0].questionText}`} />
-          )
+          const questionData = await nextQuestion()
+          if (typeof questionData === 'string') {
+            return <BotMessage content={questionData} />
+          } else {
+            const {
+              questionText,
+              possibleAnswers,
+              correctAnswer,
+              explanation
+            } = questionData
+
+            // const questionText = `Next :${questionText}\nOptions:\nA.${options.A}\nB.${options.B}\nC.${options.C}\nD. ${options.D}`;
+            // Reset AI and UI state for the new question
+            aiState.update({
+              ...aiState.get(),
+              messages: [
+                {
+                  id: nanoid(),
+                  role: 'system',
+                  content: `You are an AI bar exam specialist. You have perfect knowledge about the law and the bar exam. You grade users' answers to sample bar exam questions and help prepare them to pass the test.
+
+                    You have access to two tools. The one that is important now is nextQuestion. This is to be called whenever the user has gotten the correct answer and has no more questions so that you can move onto the next question.
+
+                    Call the nextQuestion tool whenever the user gets the correct answer.
+
+                    Current Question:
+                    ${questionText}
+
+                    A. ${possibleAnswers.A}
+                    B. ${possibleAnswers.B}
+                    C. ${possibleAnswers.C}
+                    D. ${possibleAnswers.D}
+
+                    Correct Answer:
+                    ${correctAnswer}
+
+                    Explanation:
+                    ${explanation}
+                    `
+                }
+              ]
+            })
+
+            return <BotMessage content={questionText} />
+          }
         }
       }
     }
-
-    //   function: {
-    //     name: "insert_mbe_question",
-    //     description:
-    //       "Insert MBE question into the database. The input parameter object has a question attribute that contains all the relevant case context preceding the final question 'stem'",
-    //     parameters: {
-    //       type: "object",
-    //       properties: {
-    //         Document_title: { type: "string" },
-    //         Doc_Lines_to_Delete: { type: "array", items: { type: "integer" } },
-    //         Document_Date: { type: "string" },
-    //         Publisher: { type: "string" },
-    //         question_type: { type: "string", const: "MBE" },
-    //         question: {
-    //           type: "string",
-    //           description:
-    //             "The entire question from the document to be inserted (may include multiple paragraphs in the root of the question)",
-    //         },
-    //         answers: {
-    //           type: "object",
-    //           properties: {
-    //             A: { type: "string" },
-    //             B: { type: "string" },
-    //             C: { type: "string" },
-    //             D: { type: "string" },
-    //           },
-    //         },
-    //         correct_answer: { type: "string" },
-    //         answer_origin: { type: "string" },
-    //         explanation: { type: "string" },
-    //         explanation_origin: { type: "string" },
-    //         difficulty_level: { type: "integer" },
-    //         law_category_tags: { type: "array", items: { type: "string" } },
-    //         topic: { type: "array", items: { type: "string" } },
-    //       },
-    //       required: [
-    //         "Document_title",
-    //         "Doc_Lines_to_Delete",
-    //         "Document_Date",
-    //         "Publisher",
-    //         "question_type",
-    //         "question",
-    //         "answers",
-    //         "correct_answer",
-    //         "answer_origin",
-    //         "explanation",
-    //         "explanation_origin",
-    //         "difficulty_level",
-    //         "law_category_tags",
-    //         "topic",
-    //       ],
-    //     },
-    //   }
-    // }
-    // functions: {
-    //   listStocks: {
-    //     description: 'List three imaginary stocks that are trending.',
-    //     parameters: z.object({
-    //       stocks: z.array(
-    //         z.object({
-    //           symbol: z.string().describe('The symbol of the stock'),
-    //           price: z.number().describe('The price of the stock'),
-    //           delta: z.number().describe('The change in price of the stock')
-    //         })
-    //       )
-    //     }),
-    //     render: async function* ({ stocks }) {
-    //       yield (
-    //         <BotCard>
-    //           <StocksSkeleton />
-    //         </BotCard>
-    //       )
-
-    //       await sleep(1000)
-
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'listStocks',
-    //             content: JSON.stringify(stocks)
-    //           }
-    //         ]
-    //       })
-
-    //       return (
-    //         <BotCard>
-    //           <Stocks props={stocks} />
-    //         </BotCard>
-    //       )
-    //     }
-    //   },
-    //   showStockPrice: {
-    //     description:
-    //       'Get the current stock price of a given stock or currency. Use this to show the price to the user.',
-    //     parameters: z.object({
-    //       symbol: z
-    //         .string()
-    //         .describe(
-    //           'The name or symbol of the stock or currency. e.g. DOGE/AAPL/USD.'
-    //         ),
-    //       price: z.number().describe('The price of the stock.'),
-    //       delta: z.number().describe('The change in price of the stock')
-    //     }),
-    //     render: async function* ({ symbol, price, delta }) {
-    //       yield (
-    //         <BotCard>
-    //           <StockSkeleton />
-    //         </BotCard>
-    //       )
-
-    //       await sleep(1000)
-
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'showStockPrice',
-    //             content: JSON.stringify({ symbol, price, delta })
-    //           }
-    //         ]
-    //       })
-
-    //       return (
-    //         <BotCard>
-    //           <Stock props={{ symbol, price, delta }} />
-    //         </BotCard>
-    //       )
-    //     }
-    //   },
-    //   showStockPurchase: {
-    //     description:
-    //       'Show price and the UI to purchase a stock or currency. Use this if the user wants to purchase a stock or currency.',
-    //     parameters: z.object({
-    //       symbol: z
-    //         .string()
-    //         .describe(
-    //           'The name or symbol of the stock or currency. e.g. DOGE/AAPL/USD.'
-    //         ),
-    //       price: z.number().describe('The price of the stock.'),
-    //       numberOfShares: z
-    //         .number()
-    //         .describe(
-    //           'The **number of shares** for a stock or currency to purchase. Can be optional if the user did not specify it.'
-    //         )
-    //     }),
-    //     render: async function* ({ symbol, price, numberOfShares = 100 }) {
-    //       if (numberOfShares <= 0 || numberOfShares > 1000) {
-    //         aiState.done({
-    //           ...aiState.get(),
-    //           messages: [
-    //             ...aiState.get().messages,
-    //             {
-    //               id: nanoid(),
-    //               role: 'system',
-    //               content: `[User has selected an invalid amount]`
-    //             }
-    //           ]
-    //         })
-
-    //         return <BotMessage content={'Invalid amount'} />
-    //       }
-
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'showStockPurchase',
-    //             content: JSON.stringify({
-    //               symbol,
-    //               price,
-    //               numberOfShares
-    //             })
-    //           }
-    //         ]
-    //       })
-
-    //       return (
-    //         <BotCard>
-    //           <Purchase
-    //             props={{
-    //               numberOfShares,
-    //               symbol,
-    //               price: +price,
-    //               status: 'requires_action'
-    //             }}
-    //           />
-    //         </BotCard>
-    //       )
-    //     }
-    //   },
-    //   getEvents: {
-    //     description:
-    //       'List funny imaginary events between user highlighted dates that describe stock activity.',
-    //     parameters: z.object({
-    //       events: z.array(
-    //         z.object({
-    //           date: z
-    //             .string()
-    //             .describe('The date of the event, in ISO-8601 format'),
-    //           headline: z.string().describe('The headline of the event'),
-    //           description: z.string().describe('The description of the event')
-    //         })
-    //       )
-    //     }),
-    //     render: async function* ({ events }) {
-    //       yield (
-    //         <BotCard>
-    //           <EventsSkeleton />
-    //         </BotCard>
-    //       )
-
-    //       await sleep(1000)
-
-    //       aiState.done({
-    //         ...aiState.get(),
-    //         messages: [
-    //           ...aiState.get().messages,
-    //           {
-    //             id: nanoid(),
-    //             role: 'function',
-    //             name: 'getEvents',
-    //             content: JSON.stringify(events)
-    //           }
-    //         ]
-    //       })
-
-    //       return (
-    //         <BotCard>
-    //           <Events props={events} />
-    //         </BotCard>
-    //       )
-    //     }
-    //   }
-    // }
   })
 
   return {
@@ -576,7 +294,7 @@ export const AI = createAI<AIState, UIState>({
   }
 })
 
-export const getUIStateFromAIState = (aiState: Chat) => {
+export const getUIStateFromAIStateOld = (aiState: Chat) => {
   return aiState.messages
     .filter(message => message.role !== 'system')
     .map((message, index) => ({
@@ -599,6 +317,24 @@ export const getUIStateFromAIState = (aiState: Chat) => {
             <BotCard>
               <Events props={JSON.parse(message.content)} />
             </BotCard>
+          ) : null
+        ) : message.role === 'user' ? (
+          <UserMessage>{message.content}</UserMessage>
+        ) : (
+          <BotMessage content={message.content} />
+        )
+    }))
+}
+
+export const getUIStateFromAIState = (aiState: Chat) => {
+  return aiState.messages
+    .filter(message => message.role !== 'system')
+    .map((message, index) => ({
+      id: `${aiState.chatId}-${index}`,
+      display:
+        message.role === 'function' ? (
+          message.name === 'nextQuestion' ? (
+            <BotMessage content={message.content} />
           ) : null
         ) : message.role === 'user' ? (
           <UserMessage>{message.content}</UserMessage>

@@ -11,8 +11,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Message } from '@/lib/chat/actions'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
-import { Question, AnswerChoices } from '@/lib/types';
-import { Session } from '@auth/core/types';
+import { Question, PossibleAnswers } from '@/lib/types'
+import { Session } from '@auth/core/types'
 import { supabase, fetchQuestions } from '../supabaseClient'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
@@ -21,10 +21,17 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   session: Session | null
   missingKeys?: string[]
   questionText: string
-  answers?: AnswerChoices
+  possibleAnswers?: PossibleAnswers
 }
 
-export function Chat({ id, className, session, missingKeys, questionText, answers }: ChatProps) {
+export function Chat({
+  id,
+  className,
+  session,
+  missingKeys,
+  questionText,
+  possibleAnswers
+}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
@@ -59,7 +66,7 @@ export function Chat({ id, className, session, missingKeys, questionText, answer
   }, [missingKeys])
 
   // This works - outputted in browser console
-  // console.log('answersc', answers)
+  // console.log('answersc', possibleAnswers)
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } =
     useScrollAnchor()
@@ -74,7 +81,10 @@ export function Chat({ id, className, session, missingKeys, questionText, answer
         <QuestionScreen questionText={questionText} />
       </div>
       <div
-        className={cn('flex-grow overflow-auto pb-[200px] pt-4 md:pt-10', className)}
+        className={cn(
+          'flex-grow overflow-auto pb-[200px] pt-4 md:pt-10',
+          className
+        )}
         // className={cn('pb-[200px] pt-4 md:pt-10', className)}
         // className={cn('flex-grow pb-[100px] pt-4 md:pt-10', className)}
         ref={messagesRef}
@@ -82,8 +92,7 @@ export function Chat({ id, className, session, missingKeys, questionText, answer
         {/* <QuestionScreen questionText={questionText}/> */}
         {messages.length ? (
           <ChatList messages={messages} isShared={false} session={session} />
-        ) : ( null )
-        }
+        ) : null}
         <div className="h-px w-full" ref={visibilityRef} />
       </div>
       <ChatPanel
@@ -92,7 +101,7 @@ export function Chat({ id, className, session, missingKeys, questionText, answer
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
-        answers={answers}
+        possibleAnswers={possibleAnswers}
       />
     </div>
   )

@@ -6,8 +6,8 @@ export interface Question {
   documentDate: string;
   publisher: string;
   questionType: 'MBE' | 'MEE' | 'MPT';
-  questionText: string; // Change this to questionText
-  possibleAnswers: AnswerChoices; // Change this to possibleAnswers
+  questionText: string;
+  possibleAnswers: PossibleAnswers;
   correctAnswer: string;
   answerOrigin: string;
   explanation?: string;
@@ -18,7 +18,7 @@ export interface Question {
   createdAt: string; // TODO: find right type for timestamp
 }
 
-export interface AnswerChoices {
+export interface PossibleAnswers {
   A: string;
   B: string;
   C: string;

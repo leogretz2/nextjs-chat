@@ -11,7 +11,7 @@ import { useAIState, useActions, useUIState } from 'ai/rsc'
 import type { AI } from '@/lib/chat/actions'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
-import { AnswerChoices } from '@/lib/types'
+import { PossibleAnswers } from '@/lib/types'
 import { convertPossibleAnswersToArray } from '@/lib/utils'
 
 export interface ChatPanelProps {
@@ -21,7 +21,7 @@ export interface ChatPanelProps {
   setInput: (value: string) => void
   isAtBottom: boolean
   scrollToBottom: () => void
-  answers?: AnswerChoices
+  possibleAnswers?: PossibleAnswers
 }
 
 export function ChatPanel({
@@ -31,7 +31,7 @@ export function ChatPanel({
   setInput,
   isAtBottom,
   scrollToBottom,
-  answers
+  possibleAnswers
 }: ChatPanelProps) {
   const [aiState] = useAIState()
   const [messages, setMessages] = useUIState<typeof AI>()
@@ -39,9 +39,11 @@ export function ChatPanel({
   const [shareDialogOpen, setShareDialogOpen] = React.useState(false)
 
   // This works - comes in on browser too (since imported into chat.tsx which has 'use client')
-  // console.log('cpd',answers)
-  
-  const possibleAnswers = convertPossibleAnswersToArray(answers)
+  // console.log('cpd', typeof possibleAnswers)
+
+  const possibleAnswersArray = convertPossibleAnswersToArray(possibleAnswers)
+
+  // console.log('cpdA', possibleAnswersArray[0])
 
   return (
     <div className="fixed inset-x-0 bottom-0 w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
@@ -51,10 +53,10 @@ export function ChatPanel({
       />
 
       <div className="mx-auto sm:px-4">
-      {/* <div className="mx-auto sm:max-w-2xl sm:px-4"> */}
+        {/* <div className="mx-auto sm:max-w-2xl sm:px-4"> */}
         <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
-            possibleAnswers.map((example, index) => (
+            possibleAnswersArray.map((example, index) => (
               <div
                 key={example.heading}
                 className={`cursor-pointer rounded-lg border bg-white p-4 hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 ${
