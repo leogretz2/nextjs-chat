@@ -212,7 +212,6 @@ export async function refreshHistory(path: string) {
 }
 
 export async function getMissingKeys() {
-  console.log('processenv', process.env)
   const keysRequired = ['OPENAI_API_KEY']
   return keysRequired
     .map(key => (process.env[key] ? '' : key))

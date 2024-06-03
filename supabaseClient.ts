@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { Question } from '@/lib/types'
+import { random } from 'nanoid'
 
 const supabaseUrl =
     process.env.SUPABASE_URL || 'https://gpazmihhssffmeyfmsey.supabase.co' // This is in project settings on Supabase
@@ -16,7 +17,7 @@ export const dynamic = 'force-dynamic'
 
 // Function to convert snake_case to camelCase
 function snakeToCamel(snakeCaseString: string) {
-    return snakeCaseString.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+    return snakeCaseString.replace(/_([a-z])/g, g => g[1].toUpperCase())
 }
 
 // Function to map data to the Question interface
@@ -36,17 +37,21 @@ function mapToQuestion(data: Record<string, any>): Question {
         difficultyLevel: data.difficulty_level,
         lawCategoryTags: data.law_category_tags,
         topic: data.topic,
-        createdAt: data.created_at,
+        createdAt: data.created_at
     }
 }
 
 export async function fetchQuestions(): Promise<Question[]> {
     console.log('fetcher')
+    // const { data, error } = await supabase
+    //     .from('questions')
+    //     .select('*')
+    //     // .order('question_id', { ascending: true })
+    //     // .order('RANDOM()')
+    //     .limit(1)
+
     const { data, error } = await supabase
-        .from('questions')
-        .select('*')
-        .order('question_id', { ascending: true })
-        .limit(1);
+    .rpc('get_random_question')  // Call the PostgreSQL function
 
     if (error) {
         console.error('Error fetching questions:', error)
@@ -56,6 +61,6 @@ export async function fetchQuestions(): Promise<Question[]> {
     }
 
     const questions = data.map(mapToQuestion)
-   
+
     return questions
 }

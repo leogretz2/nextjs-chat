@@ -22,6 +22,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   missingKeys?: string[]
   questionText: string
   possibleAnswers?: PossibleAnswers
+  onFetchNewQuestion: () => Promise<void>
 }
 
 export function Chat({
@@ -30,7 +31,8 @@ export function Chat({
   session,
   missingKeys,
   questionText,
-  possibleAnswers
+  possibleAnswers,
+  onFetchNewQuestion
 }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
@@ -102,6 +104,7 @@ export function Chat({
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
         possibleAnswers={possibleAnswers}
+        onFetchNewQuestion={onFetchNewQuestion}
       />
     </div>
   )

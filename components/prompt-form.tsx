@@ -17,7 +17,7 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
-import { nextQuestion } from '@/lib/chat/actions'
+import { nextQuestionOutside } from '@/lib/chat/actions'
 
 export function PromptForm({
   input,

@@ -44,7 +44,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
 })
 
-export async function nextQuestion() {
+export async function nextQuestionOutside() {
   // 'use server'
   const questions = await fetchQuestions()
   const { questionText, possibleAnswers, correctAnswer, explanation } =
@@ -72,7 +72,12 @@ async function submitUserMessage(
 
   const aiState = getMutableAIState<typeof AI>()
 
-  console.log('user submitted', content.slice(0, 8))
+  console.log(
+    'user submitted',
+    content.slice(0, 8),
+    ' to ',
+    aiState.get().messages
+  )
 
   aiState.update({
     ...aiState.get(),
@@ -163,7 +168,8 @@ async function submitUserMessage(
           'Queries the database for the next question to display to the user once they have answered the current one correctly and have no more questions.',
         parameters: z.object({}),
         render: async () => {
-          const questionData = await nextQuestion()
+          const questionData = await nextQuestionOutside()
+          console.log('in nextqf', aiState.get().messages)
           if (typeof questionData === 'string') {
             return <BotMessage content={questionData} />
           } else {
@@ -206,7 +212,18 @@ async function submitUserMessage(
               ]
             })
 
-            return <BotMessage content={questionText} />
+            console.log('in nextqf2', aiState.get().messages)
+
+            return (
+              <BotMessage
+                content={
+                  questionText +
+                  '\nA.' +
+                  possibleAnswers.A +
+                  '\nsubmitUserMessage'
+                }
+              />
+            )
           }
         }
       }
@@ -239,7 +256,7 @@ export type UIState = {
 export const AI = createAI<AIState, UIState>({
   actions: {
     submitUserMessage,
-    nextQuestion
+    nextQuestion: nextQuestionOutside
   },
   initialUIState: [],
   initialAIState: { chatId: nanoid(), messages: [] },
@@ -250,6 +267,8 @@ export const AI = createAI<AIState, UIState>({
 
     if (session && session.user) {
       const aiState = getAIState()
+
+      console.log('ingetui', aiState.get().messages)
 
       if (aiState) {
         const uiState = getUIStateFromAIState(aiState)
@@ -263,10 +282,12 @@ export const AI = createAI<AIState, UIState>({
     state,
     done
   }: {
-    state: any
+    state: AIState
     done: boolean
   }) => {
     'use server'
+
+    console.log('in setai', state.messages)
 
     const session = await auth()
 
@@ -286,6 +307,8 @@ export const AI = createAI<AIState, UIState>({
         messages,
         path
       }
+
+      console.log('in setai after', chat.messages)
 
       await saveChat(chat)
     } else {
@@ -327,19 +350,25 @@ export const getUIStateFromAIStateOld = (aiState: Chat) => {
 }
 
 export const getUIStateFromAIState = (aiState: Chat) => {
+  console.log('getUIStateFromAIState', aiState.messages)
   return aiState.messages
     .filter(message => message.role !== 'system')
-    .map((message, index) => ({
-      id: `${aiState.chatId}-${index}`,
-      display:
-        message.role === 'function' ? (
-          message.name === 'nextQuestion' ? (
+    .map((message, index) => {
+      console.log('message', message)
+      return {
+        id: `${aiState.chatId}-${index}`,
+        display:
+          message.role === 'function' ? (
+            message.name === 'nextQuestion' ? (
+              <BotMessage
+                content={message.content + '\ngetUIStateFromAIState'}
+              />
+            ) : null
+          ) : message.role === 'user' ? (
+            <UserMessage>{message.content}</UserMessage>
+          ) : (
             <BotMessage content={message.content} />
-          ) : null
-        ) : message.role === 'user' ? (
-          <UserMessage>{message.content}</UserMessage>
-        ) : (
-          <BotMessage content={message.content} />
-        )
-    }))
+          )
+      }
+    })
 }

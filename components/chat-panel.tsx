@@ -22,6 +22,7 @@ export interface ChatPanelProps {
   isAtBottom: boolean
   scrollToBottom: () => void
   possibleAnswers?: PossibleAnswers
+  onFetchNewQuesiton: () => Promise<void>
 }
 
 export function ChatPanel({
@@ -31,7 +32,8 @@ export function ChatPanel({
   setInput,
   isAtBottom,
   scrollToBottom,
-  possibleAnswers
+  possibleAnswers,
+  onFetchNewQuestion
 }: ChatPanelProps) {
   const [aiState] = useAIState()
   const [messages, setMessages] = useUIState<typeof AI>()
