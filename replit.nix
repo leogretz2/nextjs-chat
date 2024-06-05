@@ -1,5 +1,6 @@
 {pkgs}: {
   deps = [
+    pkgs.vim
     pkgs.nodejs-16_x # Adjust the Node.js version as needed
     # pkgs.pnpm
     pkgs.npm

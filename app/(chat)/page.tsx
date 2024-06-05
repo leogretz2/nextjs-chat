@@ -1,6 +1,6 @@
 import { nanoid } from '@/lib/utils'
 import { Chat } from '@/components/chat'
-import { AI } from '@/lib/chat/actions'
+import { AI } from '@/lib/chat/actions2'
 import { auth } from '@/auth'
 import { Session } from '@/lib/types'
 import { getMissingKeys } from '../actions'
@@ -8,22 +8,10 @@ import { supabase, fetchQuestions } from '../../supabaseClient'
 import loader from './page.server'
 import { insertQuestion, insertUniqueQuestion } from '../actions'
 import LogButton from '../../components/logButton'
-import { useState } from 'react'
 
 export const metadata = {
   title: 'Juris'
 }
-
-// Runs on the server before page component runs
-// export async function loader() {
-//   console.log('loader')
-//   const questions = await fetchQuestions();
-//   const session = await auth() as Session;
-//   const missingKeys = await getMissingKeys();
-//   return {
-//     questions, session, missingKeys // These props will be passed to the default export component
-//   };
-// }
 
 export default async function IndexPage(/*{session}*/) {
   const { props } = await loader()
@@ -60,13 +48,13 @@ export default async function IndexPage(/*{session}*/) {
   // console.log('pagehere', qus);
 
   return (
-    <AI initialAIState={{ chatId: id, messages: [] }}>
+    // <AI initialAIState={{ chatId: id, messages: []}}>
+    <AI>
       {/* <div>asdfk</div> */}
       <Chat
         id={id}
         session={session}
         missingKeys={missingKeys}
-        questionText={questionText}
         possibleAnswers={possibleAnswers}
       />
       {/* <button onClick={() => fetchQuestions()}>Click</button> */}

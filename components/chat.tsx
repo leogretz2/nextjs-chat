@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn, nanoid } from '@/lib/utils'
 import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
 import { QuestionScreen } from '@/components/question-screen'
@@ -8,10 +8,11 @@ import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useEffect, useState } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
 import { usePathname, useRouter } from 'next/navigation'
-import { Message } from '@/lib/chat/actions'
+import { Message } from '@/lib/chat/actions2'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
-import { Question, PossibleAnswers } from '@/lib/types'
+import { Question, PossibleAnswers, UIState } from '@/lib/types'
+import { submitUserMessage } from '@/lib/chat/actions2'
 import { Session } from '@auth/core/types'
 import { supabase, fetchQuestions } from '../supabaseClient'
 
@@ -20,9 +21,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   id?: string
   session: Session | null
   missingKeys?: string[]
-  questionText: string
   possibleAnswers?: PossibleAnswers
-  onFetchNewQuestion: () => Promise<void>
 }
 
 export function Chat({
@@ -30,17 +29,23 @@ export function Chat({
   className,
   session,
   missingKeys,
-  questionText,
-  possibleAnswers,
-  onFetchNewQuestion
+  possibleAnswers
 }: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
-  const [messages] = useUIState()
+  const [uiState, setUIState] = useUIState()
+  // const [messages] = useUIState()
   const [aiState] = useAIState()
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
+
+  // Initially populate screen with random question and no messages
+  const { messages = [], questionText = '' } = uiState
+
+  useEffect(() => {
+    console.log('uiState in Chat:', uiState)
+  }, [uiState])
 
   useEffect(() => {
     if (session?.user) {
@@ -66,6 +71,21 @@ export function Chat({
       toast.error(`Missing ${key} environment variable!`)
     })
   }, [missingKeys])
+
+  // Fetch the initial question text
+  useEffect(() => {
+    const fetchInitialQuestion = async () => {
+      const questions = await fetchQuestions()
+      if (questions && questions.length > 0) {
+        setUIState((prevState: UIState)=> ({
+          ...prevState,
+          questionText: questions[0].questionText
+        }))
+      }
+    }
+
+    fetchInitialQuestion()
+  }, [])
 
   // This works - outputted in browser console
   // console.log('answersc', possibleAnswers)
@@ -96,6 +116,32 @@ export function Chat({
           <ChatList messages={messages} isShared={false} session={session} />
         ) : null}
         <div className="h-px w-full" ref={visibilityRef} />
+        <button
+          onClick={async () => {
+            // First one to add user message to conversation
+            setUIState((prevState: any) => {
+              console.log('prever', prevState)
+              return {
+                ...prevState,
+                conversation: [
+                  ...prevState.conversation,
+                  { id: nanoid(), role: 'user', display: input }
+                ]
+              }
+            })
+
+            const message = await submitUserMessage(input)
+
+            // Second one to add message after continue conversation
+            setUIState((prevState: any) => ({
+              ...prevState,
+              conversation: [...prevState.conversation, message],
+              titleText: message.questionText // Example of updating titleText
+            }))
+          }}
+        >
+          Next q
+        </button>
       </div>
       <ChatPanel
         id={id}
@@ -104,7 +150,6 @@ export function Chat({
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
         possibleAnswers={possibleAnswers}
-        onFetchNewQuestion={onFetchNewQuestion}
       />
     </div>
   )

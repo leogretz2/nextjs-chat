@@ -22,7 +22,7 @@ export interface ChatPanelProps {
   isAtBottom: boolean
   scrollToBottom: () => void
   possibleAnswers?: PossibleAnswers
-  onFetchNewQuesiton: () => Promise<void>
+  onFetchNewQuesiton?: () => Promise<void>
 }
 
 export function ChatPanel({
@@ -32,8 +32,7 @@ export function ChatPanel({
   setInput,
   isAtBottom,
   scrollToBottom,
-  possibleAnswers,
-  onFetchNewQuestion
+  possibleAnswers
 }: ChatPanelProps) {
   const [aiState] = useAIState()
   const [messages, setMessages] = useUIState<typeof AI>()
@@ -42,6 +41,9 @@ export function ChatPanel({
 
   // This works - comes in on browser too (since imported into chat.tsx which has 'use client')
   // console.log('cpd', typeof possibleAnswers)
+  React.useEffect(() => {
+    console.log('uiState in ChatPanel:', messages)
+  }, [messages])
 
   const possibleAnswersArray = convertPossibleAnswersToArray(possibleAnswers)
 
@@ -58,9 +60,9 @@ export function ChatPanel({
         {/* <div className="mx-auto sm:max-w-2xl sm:px-4"> */}
         <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
           {messages.length === 0 &&
-            possibleAnswersArray.map((example, index) => (
+            possibleAnswersArray.map((possibleAnswer, index) => (
               <div
-                key={example.heading}
+                key={possibleAnswer.heading}
                 className={`cursor-pointer rounded-lg border bg-white p-4 hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 ${
                   index > 1 && 'hidden md:block'
                 }`}
@@ -69,12 +71,14 @@ export function ChatPanel({
                     ...currentMessages,
                     {
                       id: nanoid(),
-                      display: <UserMessage>{example.message}</UserMessage>
+                      display: (
+                        <UserMessage>{possibleAnswer.message}</UserMessage>
+                      )
                     }
                   ])
 
                   const responseMessage = await submitUserMessage(
-                    example.message
+                    possibleAnswer.message
                   )
 
                   setMessages((currentMessages: any) => [
@@ -83,10 +87,12 @@ export function ChatPanel({
                   ])
                 }}
               >
-                <div className="text-sm font-semibold">{example.heading}</div>
-                {/* <div className="text-sm text-zinc-600">
-                  {example.subheading}
-                </div> */}
+                <div className="text-sm font-semibold">
+                  {possibleAnswer.heading}
+                </div>
+                <div className="text-sm text-zinc-600">
+                  {possibleAnswer.message}
+                </div>
               </div>
             ))}
         </div>

@@ -65,3 +65,10 @@ export interface User extends Record<string, any> {
   password: string
   salt: string
 }
+
+export type UIState = {
+  // id: string
+  // display: React.ReactNode
+  messages: Message[],
+  questionText: string | (() => Promise<string>)
+}

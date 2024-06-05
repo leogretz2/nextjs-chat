@@ -8,8 +8,10 @@ import {
   getMutableAIState,
   getAIState,
   render,
+  streamUI,
   createStreamableValue
 } from 'ai/rsc'
+import { openai } from '@ai-sdk/openai'
 import OpenAI from 'openai'
 
 import {
@@ -22,11 +24,8 @@ import {
 } from '@/components/stocks'
 
 import { z } from 'zod'
-import { EventsSkeleton } from '@/components/stocks/events-skeleton'
 import { Events } from '@/components/stocks/events'
-import { StocksSkeleton } from '@/components/stocks/stocks-skeleton'
 import { Stocks } from '@/components/stocks/stocks'
-import { StockSkeleton } from '@/components/stocks/stock-skeleton'
 import {
   formatNumber,
   runAsyncFnWithoutBlocking,
@@ -35,12 +34,12 @@ import {
 } from '@/lib/utils'
 import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
-import { Chat } from '@/lib/types'
+import { Chat, UIState } from '@/lib/types'
 import { auth } from '@/auth'
 import { fetchQuestions } from '@/supabaseClient'
 import IndexPage from 'app/(chat)/page'
 
-const openai = new OpenAI({
+const openai_original = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || ''
 })
 
@@ -65,7 +64,7 @@ export async function nextQuestionOutside() {
   }
 }
 
-async function submitUserMessage(
+export async function submitUserMessage(
   content: string
 ): Promise<{ id: string; display: any }> {
   'use server'
@@ -79,6 +78,7 @@ async function submitUserMessage(
     aiState.get().messages
   )
 
+  // I think this might fix glitchy add way before header change
   aiState.update({
     ...aiState.get(),
     messages: [
@@ -96,9 +96,10 @@ async function submitUserMessage(
   let textStream: undefined | ReturnType<typeof createStreamableValue>
   let textNode: undefined | React.ReactNode
 
-  const ui: React.ReactNode = render({
-    model: 'gpt-3.5-turbo',
-    provider: openai,
+  // streamUI returns Promise<RenderResult> but that's not importable from ai/rsc weirdly
+  const ui = streamUI({
+    model: openai('gpt-3.5-turbo'), // takes OPENAI_API_KEY from env by default
+    // provider: openai,
     initial: <SpinnerMessage />,
     messages: [
       {
@@ -161,13 +162,24 @@ async function submitUserMessage(
 
       return textNode
     },
-    // New functions based off of old
     tools: {
+      testTool: {
+        description: 'Test tool',
+        parameters: z.object({
+          difficulty: z.number().describe('Difficulty of question')
+        }),
+        generate: async ({ difficulty }) => {
+          // Perform some operations with difficulty and return a result
+          console.log('in tool', difficulty)
+          const title = `teebasdl is set to ${difficulty}`
+          return title
+        }
+      },
       nextQuestion: {
         description:
           'Queries the database for the next question to display to the user once they have answered the current one correctly and have no more questions.',
         parameters: z.object({}),
-        render: async () => {
+        generate: async () => {
           const questionData = await nextQuestionOutside()
           console.log('in nextqf', aiState.get().messages)
           if (typeof questionData === 'string') {
@@ -232,7 +244,7 @@ async function submitUserMessage(
 
   return {
     id: nanoid(),
-    display: ui
+    display: ui.value
   }
 }
 
@@ -248,12 +260,13 @@ export type AIState = {
   messages: Message[]
 }
 
-export type UIState = {
-  // id: string
-  // display: React.ReactNode
-  messages: Message[],
-  questionText: string
-}
+// Moved to types.ts
+// export type UIState = {
+//   // id: string
+//   // display: React.ReactNode
+//   messages: Message[]
+//   questionText: string
+// }
 
 export const AI = createAI<AIState, UIState>({
   actions: {
@@ -261,8 +274,8 @@ export const AI = createAI<AIState, UIState>({
     nextQuestion: nextQuestionOutside
   },
   initialAIState: { chatId: nanoid(), messages: [] },
-  initialUIState: { messages: [], questionText: "Default Title" },
-  unstable_onGetUIState: async () => {
+  initialUIState: { messages: [], questionText: 'Loading...' },
+  onGetUIState: async () => {
     'use server'
 
     const session = await auth()
@@ -280,13 +293,7 @@ export const AI = createAI<AIState, UIState>({
       return
     }
   },
-  unstable_onSetAIState: async ({
-    state,
-    done
-  }: {
-    state: AIState
-    done: boolean
-  }) => {
+  onSetAIState: async ({ state, done }: { state: AIState; done: boolean }) => {
     'use server'
 
     console.log('in setai', state.messages)

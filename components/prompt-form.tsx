@@ -17,7 +17,8 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
-import { nextQuestionOutside } from '@/lib/chat/actions'
+import { UIState, Question } from '@/lib/types'
+import { fetchQuestions } from '@/supabaseClient'
 
 export function PromptForm({
   input,
@@ -30,7 +31,13 @@ export function PromptForm({
   const { formRef, onKeyDown } = useEnterSubmit()
   const inputRef = React.useRef<HTMLTextAreaElement>(null)
   const { submitUserMessage } = useActions()
-  const [_, setMessages] = useUIState<typeof AI>()
+  const [uiState, setUIState] = useUIState()
+  // Don't use AI type, do uiState
+  // const [messages, setMessages] = useUIState<typeof AI>()
+
+  React.useEffect(() => {
+    console.log('uiState in PromptForm:', uiState)
+  }, [uiState])
 
   React.useEffect(() => {
     if (inputRef.current) {
@@ -54,17 +61,26 @@ export function PromptForm({
         if (!value) return
 
         // Optimistically add user message UI
-        setMessages(currentMessages => [
-          ...currentMessages,
-          {
-            id: nanoid(),
-            display: <UserMessage>{value}</UserMessage>
+        setUIState((v_: UIState) => {
+          const { messages, questionText } = v_
+          return {
+            questionText,
+            messages: [
+              ...messages,
+              {
+                id: nanoid(),
+                display: <UserMessage>{value}</UserMessage>
+              }
+            ]
           }
-        ])
+        })
 
         // Submit and get response message
         const responseMessage = await submitUserMessage(value)
-        setMessages(currentMessages => [...currentMessages, responseMessage])
+        setUIState((currentUIState: UIState) => ({
+          messages: [...currentUIState.messages, responseMessage],
+          questionText: currentUIState.questionText
+        }))
       }}
     >
       <div className="relative flex max-h-60 w-full grow flex-col overflow-hidden bg-background px-8 sm:rounded-md sm:border sm:px-12">
